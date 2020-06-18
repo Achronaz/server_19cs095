@@ -1,0 +1,4 @@
+{
+    "SECRET_KEY":"j4oXZhMBxrfsT4SNEczc",
+    "SQLALCHEMY_DATABASE_URI":"mysql+pymysql://shkuser:shkpassword@localhost:3306/db_19cs095"
+}
