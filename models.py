@@ -7,6 +7,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 
 db = SQLAlchemy(app)
 
+# from server import db, User, Token, Recipes
+# user = User(userid=1, username="user1", password="user1", role="admin")
+# db.session.add(user)
+# db.session.commit()
+# print(Recipes.query.filter_by(id=38).all()[0].id)
+
 class User(db.Model):
     __tablename__ = 'user'
     userid = db.Column(db.Integer, primary_key=True)
