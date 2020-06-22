@@ -13,6 +13,7 @@ class Recipes(db.Model):
     description = db.Column(db.Text)
     ingredients = db.Column(db.Text)
     n_ingredients = db.Column(db.Integer)
+    
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     

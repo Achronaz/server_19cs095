@@ -5,5 +5,6 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(255), nullable=False)
+    
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
