@@ -1,1 +1,3 @@
 SQLALCHEMY_DATABASE_URI: mysql+pymysql://shkuser:shkpassword@127.0.0.1:3306/db_19cs095
+GOOGLE_PLACE_API_ENDPOINT: https://maps.googleapis.com/maps/api/place/findplacefromtext/json
+GOOGLE_PLACE_API_KEY: AIzaSyDTra46T44xFdOklqS4S2WRbBcJD7jZHOE
