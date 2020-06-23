@@ -1,12 +1,21 @@
-from flask import Flask
+from flask import Flask, session
 app = Flask(__name__)
 
+# config
 import yaml
 config = yaml.load(open('config.yaml'),Loader=yaml.FullLoader)
 
+# database
 from flask_sqlalchemy import SQLAlchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 
+# session
+import os
+from datetime import timedelta
+app.config['SECRET_KEY'] = os.urandom(24)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
+
+# routes
 from server.routes import *

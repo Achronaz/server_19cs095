@@ -6,11 +6,7 @@ from flask import request, jsonify
 def rows2dicts(rows):
     return jsonify([row.as_dict() for row in rows])
 
-@app.route('/recipe', methods = ['GET'])
-def recipe():
-    return request.url
-
-@app.route('/recipe/test', methods = ['GET'])
-def test():
-    rows = rows2dicts(Recipes.query.limit(2).all())
+@app.route('/recipe/search/<input>', methods = ['GET'])
+def recipe_search(input):
+    rows = rows2dicts(Recipes.query.filter(Recipes.name.like('%'+input+'%') | Recipes.tags.like('%'+input+'%')).limit(10).all())
     return rows
