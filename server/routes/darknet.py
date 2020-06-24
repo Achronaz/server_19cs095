@@ -6,9 +6,9 @@ from server import app
 from flask import request
 
 # load YOLOv4 model
-MODEL_CFG = '../darknet/custom5-512.cfg'
-MODEL_WEIGHTS = '../darknet/custom5-512.weights'
-MODEL_DATA = '../darknet/custom5-512.data'
+MODEL_CFG = 'darknet/custom5-512.cfg'
+MODEL_WEIGHTS = 'darknet/custom5-512.weights'
+MODEL_DATA = 'darknet/custom5-512.data'
 
 net = dn.load_net_custom(
     str.encode(MODEL_CFG),
