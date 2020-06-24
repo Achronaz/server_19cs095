@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script></script>
+{% endblock %}
+
+{% block stylesheet %}
+<style></style>
+{% endblock %}
+
+{% block body %}
+<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
+    <h1 class="ui header">Food Recognizer</h1>
+    <h4>
+        Food image recognition with state-of-the-art image recognition technologies.<br>
+        Let's apply it to your products.</h4>
+    <div class="inline">
+        <div class="ui primary button">Get Started</div>
+        <div class="ui button">Demostration</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="ui mini modal container" id="modal_signin">
+    <div class="header">Sign in</div>
+    <div class="content">
+        <form class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <button class="ui button fluid" type="submit">Sign in</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="ui mini modal container" id="modal_signup">
+    <div class="header">Sign up</div>
+    <div class="content">
+        <form class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <input type="password" name="repassword">
+            </div>
+            <div class="field">
+                <button class="ui button fluid" type="submit">Sign up</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

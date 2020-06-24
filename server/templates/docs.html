@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script></script>
+{% endblock %}
+
+{% block stylesheet %}
+<style></style>
+{% endblock %}
+
+{% block body %}
+docs
+{% endblock %}
+
+{% block modal %}
+<div class="ui mini modal container" id="modal_signin">
+    <div class="header">Sign in</div>
+    <div class="content">
+        <form class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <button class="ui button fluid" type="submit">Sign in</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="ui mini modal container" id="modal_signup">
+    <div class="header">Sign up</div>
+    <div class="content">
+        <form class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password">
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <input type="password" name="repassword">
+            </div>
+            <div class="field">
+                <button class="ui button fluid" type="submit">Sign up</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

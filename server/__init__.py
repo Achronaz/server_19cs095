@@ -1,5 +1,9 @@
-from flask import Flask, session
-app = Flask(__name__)
+from flask import Flask, session, render_template
+app = Flask(__name__,static_url_path='/static',static_folder='static',template_folder='templates')
+
+# bcrypt
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
 
 # config
 import yaml

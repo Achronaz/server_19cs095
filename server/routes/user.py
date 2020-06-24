@@ -1,15 +1,13 @@
-from server import app, db
-from flask import request, jsonify, session
+from server import app, db, bcrypt
+from flask import request, jsonify, session, redirect, url_for
 from server.models.user import User
 from server.models.token import Token
-
-# utils
-def hash(content):
-    return content
+import secrets
 
 @app.route('/user', methods = ['GET'])
 def user():
-    return request.url
+
+    return secrets.token_hex()
 
 @app.route('/user/register', methods = ['POST'])
 def user_register():
@@ -24,38 +22,41 @@ def user_register():
     if password != repassword:
         return jsonify({'status':'error','message':'password and repassword not match'})
 
-    user = User(name=username, password=hash(password), role='user')
+    user = User(username=username, password=bcrypt.generate_password_hash(password), role='user')
     db.session.add(user)
     db.session.commit()
 
     return jsonify({'status':'success','message':'register success'})
 
-@app.route('/user/login', methods = ['POST'])
-def user_login():
-    
+@app.route('/user/signin', methods = ['POST'])
+def user_signin():
+
     username = request.form.get("username", default=None, type=str)
     password = request.form.get("password", default=None, type=str)
 
     if username is None or password is None:
         return jsonify({'status':'error','message':'username or password not presented'})
-    
-    #select from db, compare hashed password
 
-    session['username'] = username
+    #select from db, compare hashed password
+    user = User.query.filter_py(username=username).first()
+
+    if not user or not bcrypt.check_password_hash(user.password, password):
+        return jsonify({'status':'error','message':'username or password incorrect'})
+
+    session['user'] = user
     session.permanent = True
 
-    # redirect
-    return request.url
+    return jsonify({'status':'success','message':'signin success'})
 
-@app.route('/user/logout', methods = ['GET'])
-def user_logout():
-    session['username'] = False
-
-    # redirect
-    return request.url
+@app.route('/user/signout', methods = ['GET'])
+def user_signout():
+    session['user'] = False
+    return redirect(url_for('/'))
 
 @app.route('/user/add/token', methods = ['GET'])
 def user_add_token():
+    token = secrets.token_hex()
+    token = Token(session['user'].userid, token)
     return request.url
 
 @app.route('/user/remove/token', methods = ['GET'])

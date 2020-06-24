@@ -1,0 +1,35 @@
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Food Recognizer</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
+        <script src="static/js/jquery-3.1.1.min.js"></script>
+        <script src="static/semantic/semantic.min.js"></script>
+        {% block javascript %}{% endblock %}
+        {% block stylesheet %}{% endblock %}
+    </head>
+    <!--body style="background-image: url(/static/img/background.jpeg);"> -->
+    <body>
+        <div class="ui vertical center segment" style="height:100vh;">
+            <div class="ui stackable container menu">
+                <div class="item">
+                    <img class="ui mini rounded image" src="/static/img/icon.png">
+                </div>
+                <a class="item active" href="/">Home</a>
+                <a class="item" href="/docs">Docs</a>
+                <a class="item" href="/demo">Demo</a>
+                <div class="right menu">
+                    <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>
+                    <a class="ui item" onclick="$('#modal_signup').modal('show')">Sign out</a>
+                </div>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+        
+        {% block modal %}{% endblock %}
+    </body>
+</html>
