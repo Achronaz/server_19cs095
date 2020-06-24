@@ -9,13 +9,21 @@
         <link rel="stylesheet" type="text/css" href="static/semantic/semantic.min.css">
         <script src="static/js/jquery-3.1.1.min.js"></script>
         <script src="static/semantic/semantic.min.js"></script>
+        <style>
+            body {
+                /*
+                background: rgb(138,249,255);
+                background: linear-gradient(90deg, rgba(138,249,255,1) 12%, rgba(117,243,255,1) 30%, rgba(0,249,255,1) 53%, rgba(47,224,247,1) 75%, rgba(32,217,249,1) 92%, rgba(0,212,255,1) 95%);
+                */
+            }
+        </style>
         {% block javascript %}{% endblock %}
         {% block stylesheet %}{% endblock %}
     </head>
     <!--body style="background-image: url(/static/img/background.jpeg);"> -->
     <body>
         <div class="ui vertical center segment" style="height:100vh;">
-            <div class="ui stackable container menu">
+            <div class="ui stackable container menu" style="min-height: 61px;">
                 <div class="item">
                     <img class="ui mini rounded image" src="/static/img/icon.png">
                 </div>
@@ -24,7 +32,6 @@
                 <a class="item" href="/demo">Demo</a>
                 <div class="right menu">
                     <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>
-                    <a class="ui item" onclick="$('#modal_signup').modal('show')">Sign out</a>
                 </div>
             </div>
             {% block body %}{% endblock %}

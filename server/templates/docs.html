@@ -9,27 +9,46 @@
 {% endblock %}
 
 {% block body %}
-docs
+<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
+    <h1 class="ui header">Documentation</h1>
+</div>
 {% endblock %}
 
 {% block modal %}
-<div class="ui mini modal container" id="modal_signin">
+<div class="ui tiny modal container" id="modal_signin">
     <div class="header">Sign in</div>
-    <div class="content">
-        <form class="ui form">
-            <div class="field">
+    <div class="ui segment" style="border-top: 0;margin-top: 0;">
+        <div class="ui two column very relaxed stackable grid">
+          <div class="column">
+            <div class="ui form">
+              <div class="field">
                 <label>Username</label>
-                <input type="text" name="username">
-            </div>
-            <div class="field">
+                <div class="ui left icon input">
+                  <input type="text" name="username" placeholder="Username">
+                  <i class="user icon"></i>
+                </div>
+              </div>
+              <div class="field">
                 <label>Password</label>
-                <input type="password" name="password">
+                <div class="ui left icon input">
+                  <input type="password" name="password" placeholder="Password">
+                  <i class="lock icon"></i>
+                </div>
+              </div>
+              <div class="ui blue submit button fluid">Sign in</div>
             </div>
-            <div class="field">
-                <button class="ui button fluid" type="submit">Sign in</button>
+          </div>
+          <div class="middle aligned column">
+            <div class="ui button fluid" onclick="$('#modal_signup').modal('show')">
+              <i class="signup icon"></i>
+              Sign Up
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+        <div class="ui vertical divider">
+          Or
+        </div>
+      </div>
 </div>
 
 <div class="ui mini modal container" id="modal_signup">
@@ -38,18 +57,27 @@ docs
         <form class="ui form">
             <div class="field">
                 <label>Username</label>
-                <input type="text" name="username">
+                <div class="ui left icon input">
+                    <input type="text" name="username" placeholder="Username">
+                    <i class="user icon"></i>
+                </div>
             </div>
             <div class="field">
                 <label>Password</label>
-                <input type="password" name="password">
+                <div class="ui left icon input">
+                    <input type="password" name="password" placeholder="Password">
+                    <i class="lock icon"></i>
+                </div>
             </div>
             <div class="field">
                 <label>Confirm Password</label>
-                <input type="password" name="repassword">
+                <div class="ui left icon input">
+                    <input type="password" name="repassword" placeholder="Confirm Password">
+                    <i class="lock icon"></i>
+                </div>
             </div>
             <div class="field">
-                <button class="ui button fluid" type="submit">Sign up</button>
+                <button class="ui button primary fluid" type="submit">Sign up</button>
             </div>
         </form>
     </div>
