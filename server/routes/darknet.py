@@ -22,7 +22,6 @@ from flask_cors import CORS
 import uuid
 from PIL import Image
 
-UPLOAD_FOLDER = os.getcwd() + "../upload/"
 ALLOWED_EXTENSIONS = {'png', 'jpg'}
 
 #utils
