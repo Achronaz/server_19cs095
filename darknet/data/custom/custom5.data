@@ -1,5 +1,0 @@
-classes = 5
-train = data/custom/train.txt
-test = data/custom/test.txt
-names = data/custom/food.names
-backup = backup/
