@@ -7,6 +7,9 @@
 # cuDNN >= 7.0 for CUDA 10.0    
 # GPU with CC >= 3.0
 
+git clone https://github.com/Achronaz/server_19cs095
+cd server_19cs095
+
 pip install -r requirements.txt
 
 cd darknet
