@@ -7,3 +7,4 @@ Werkzeug==1.0.1
 gdown==3.11.1
 flask-cors==3.0.8
 Pillow==7.1.2
+PyYAML==5.3.1
