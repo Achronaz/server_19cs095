@@ -21,7 +21,7 @@ cd ..
 
 python3 run.py
 ```
-# when pip install fail try 
+# when pip install fail, try following commands
 ```
 sudo -H pip3 install --upgrade PyYAML
 sudo -H pip3 install --ignore-installed PyYAML
