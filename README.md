@@ -1,5 +1,6 @@
-# install dependencies and run on development mode
+# run server on development mode
 ```
-pip install -r requirements.txt
-python run.py
+chmod +x setup.sh
+./setup.sh
+python3 run.py
 ```

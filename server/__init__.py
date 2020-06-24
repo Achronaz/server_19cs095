@@ -21,5 +21,8 @@ from datetime import timedelta
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
 
+from flask_cors import CORS
+CORS(app)
+
 # routes
 from server.routes import *
