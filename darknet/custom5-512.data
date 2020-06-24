@@ -1,5 +1,5 @@
 classes = 5
-train = ../darknet/data/custom/train.txt
-test = ../darknet/data/custom/test.txt
-names = ../darknet/data/custom/custom5.names
-backup = ../darknet/backup/
+train = darknet/data/custom/train.txt
+test = darknet/data/custom/test.txt
+names = darknet/data/custom/custom5.names
+backup = darknet/backup/
