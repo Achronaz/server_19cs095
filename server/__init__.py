@@ -1,10 +1,6 @@
 from flask import Flask, session, render_template
 app = Flask(__name__,static_url_path='/static',static_folder='static',template_folder='templates')
 
-# absolute path
-app_base_dir = os.path.dirname(os.path.realpath(__file__))
-darknet_base_dir = app_base_dir + '/../darknet'
-
 # bcrypt
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -30,3 +26,7 @@ CORS(app)
 
 # routes
 from server.routes import *
+
+# absolute path
+app_base_dir = os.path.dirname(os.path.realpath(__file__))
+darknet_base_dir = app_base_dir + '/../darknet'
