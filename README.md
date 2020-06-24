@@ -1,6 +1,20 @@
-# run server on development mode
+# setup and start server
 ```
-chmod +x setup.sh
-./setup.sh
+# Requirement (Linux)
+# CMake >= 3.12
+# CUDA 10.0
+# OpenCV >= 2.4
+# cuDNN >= 7.0 for CUDA 10.0    
+# GPU with CC >= 3.0
+
+pip install -r requirements.txt
+
+cd darknet
+gdown https://drive.google.com/u/1/uc?id=1AbFplLDNAkOBTYmFu1Z5rEly3L-5SDWl
+
+make
+
+cd ..
+
 python3 run.py
 ```
