@@ -1,7 +1,7 @@
+import os
 from flask import Flask, session, render_template
 app = Flask(__name__,static_url_path='/static',static_folder='static',template_folder='templates')
-app.config['UPLOAD_FOLDER'] = './upload'
-
+app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.realpath(__file__)) + '/upload'
 # bcrypt
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -17,7 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 
 # session
-import os
 from datetime import timedelta
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
