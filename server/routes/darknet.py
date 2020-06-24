@@ -3,7 +3,7 @@ sys.path.append('../../darknet')
 import darknet.darknet as dn
 
 from server import app
-from flask import request
+from flask import request, render_template
 
 # load YOLOv4 model
 MODEL_CFG = 'darknet/custom5-512.cfg'
@@ -64,12 +64,4 @@ def upload_file():
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], str(uuid.uuid4()) + ext )
             file.save(filepath)
             return predict(filepath)
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('documentation.html')
