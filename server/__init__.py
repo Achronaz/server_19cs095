@@ -26,7 +26,3 @@ CORS(app)
 
 # routes
 from server.routes import *
-
-# absolute path
-app_base_dir = os.path.dirname(os.path.realpath(__file__))
-darknet_base_dir = app_base_dir + '/../darknet'
