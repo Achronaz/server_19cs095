@@ -2,13 +2,13 @@ import sys, os
 sys.path.append('../../darknet')
 import darknet.darknet as dn
 
-from server import app, darknet_base_dir
+from server import app
 from flask import request
 
 # load YOLOv4 model
-MODEL_CFG = darknet_base_dir+'/custom5-512.cfg'
-MODEL_WEIGHTS = darknet_base_dir+'/custom5-512.weights'
-MODEL_DATA = darknet_base_dir+'/custom5-512.data'
+MODEL_CFG = '../darknet/custom5-512.cfg'
+MODEL_WEIGHTS = '../darknet/custom5-512.weights'
+MODEL_DATA = '../darknet/custom5-512.data'
 
 net = dn.load_net_custom(
     str.encode(MODEL_CFG),
