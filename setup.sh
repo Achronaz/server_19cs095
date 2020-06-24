@@ -8,7 +8,7 @@
 pip install -r requirements.txt
 
 cd darknet
-gdown https://drive.google.com/u/1/uc?id=1AbFplLDNAkOBTYmFu1Z5rEly3L-5SDWl&export=download
+gdown https://drive.google.com/u/1/uc?id=1AbFplLDNAkOBTYmFu1Z5rEly3L-5SDWl
 
 sed -i s/GPU=0/GPU=1/g Makefile
 sed -i s/CUDNN=0/CUDNN=1/g Makefile
