@@ -15,7 +15,7 @@ pip install -r requirements.txt
 cd darknet
 gdown https://drive.google.com/u/1/uc?id=1AbFplLDNAkOBTYmFu1Z5rEly3L-5SDWl
 
-make
+make -j"$(nproc)"
 
 cd ..
 
