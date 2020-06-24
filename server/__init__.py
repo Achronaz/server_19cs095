@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template
 app = Flask(__name__,static_url_path='/static',static_folder='static',template_folder='templates')
+app.config['UPLOAD_FOLDER'] = './upload'
 
 # bcrypt
 from flask_bcrypt import Bcrypt
