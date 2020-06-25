@@ -25,9 +25,9 @@
         <div class="ui vertical center segment" style="height:100vh;">
             <div class="ui stackable container menu" style="min-height: 61px;">
                 <div class="item"><img class="ui mini rounded image" src="/static/img/icon.png"></div>
-                <a class='item {% if request.resolver_match.url_name == "" %}active{% endif %}' href="/">Home</a>
-                <a class='item {% if request.resolver_match.url_name == "docs" %}active{% endif %}' href="/docs">Docs</a>
-                <a class='item {% if request.resolver_match.url_name == "demo" %}active{% endif %}' href="/demo">Demo</a>
+                <a class='item {% if request.path == "/" %}active{% endif %}' href="/">Home</a>
+                <a class='item {% if request.path == "/docs" %}active{% endif %}' href="/docs">Docs</a>
+                <a class='item {% if request.path == "/demo" %}active{% endif %}' href="/demo">Demo</a>
                 <div class="right menu"><a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a></div>
             </div>
             {% block body %}{% endblock %}
