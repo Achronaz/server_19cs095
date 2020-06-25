@@ -8,20 +8,6 @@
 <style></style>
 {% endblock %}
 
-{% block nav %}
-<div class="ui stackable container menu" style="min-height: 61px;">
-  <div class="item">
-      <img class="ui mini rounded image" src="/static/img/icon.png">
-  </div>
-  <a class="item" href="/">Home</a>
-  <a class="item" href="/docs">Docs</a>
-  <a class="item active" href="/demo">Demo</a>
-  <div class="right menu">
-      <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>
-  </div>
-</div>
-{% endblock %}
-
 {% block body %}
 <div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
   <input type="file" id="image" accept="image/*">
