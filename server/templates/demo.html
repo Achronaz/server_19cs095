@@ -9,10 +9,11 @@
 {% endblock %}
 
 {% block body %}
-<input type="file" id="image" accept="image/*">
-<input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
-<canvas id="canvas"></canvas>
-
+<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
+  <input type="file" id="image" accept="image/*">
+  <input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
+  <canvas id="canvas"></canvas>
+</div>
 <script>
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
