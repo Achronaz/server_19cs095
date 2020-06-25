@@ -9,9 +9,68 @@
 {% endblock %}
 
 {% block body %}
-<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
-    <h1 class="ui header">Demonstration</h1>
-</div>
+<input type="file" id="image" accept="image/*">
+<input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
+<canvas id="canvas"></canvas>
+
+<script>
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var image = document.getElementById('image');
+var img = new Image();
+img.onload = function(){
+	canvas.width = img.width;
+	canvas.height = img.height;
+	ctx.drawImage(img, 0, 0, img.width, img.height);
+	rect = canvas.getBoundingClientRect();
+}
+image.addEventListener("change",function(event){
+	let file = event.target.files[0];
+	if(file.type.match('image.*')) {
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function(event){
+			if( event.target.readyState == FileReader.DONE) {
+				img.src = event.target.result;
+				hasImg = true;
+			}
+		}    
+	} else {
+		alert("not an image");
+	}
+});
+function drawPrediction(predictions){
+	for(var i=0; i < predictions.length; i++){
+		var pred = predictions[i];
+		var label = pred.label;
+		var similarity = parseFloat(pred.similarity).toFixed(2);
+		ctx.beginPath();
+		ctx.moveTo(pred.x1,pred.y1);
+		ctx.lineTo(pred.x2,pred.y1);
+		ctx.lineTo(pred.x2,pred.y2);
+		ctx.lineTo(pred.x1,pred.y2);
+		ctx.lineTo(pred.x1,pred.y1);
+		ctx.strokeStyle = "#00ff00";
+		ctx.stroke();
+		ctx.fillStyle = "#00ff00"
+		ctx.fillText(label+"("+similarity+")", pred.x1 + 10, pred.y1 +10);
+	}
+}
+function getPrediction(){
+	var formData  = new FormData();
+	formData.append('file',image.files[0]);
+	fetch('https://api.achronaz.com/darknet/detect',{
+		method: 'POST',
+		body: formData
+	})
+	.then(response => response.json())
+	.then(function(response) {
+		console.log(response);
+		drawPrediction(response);
+	})
+}
+
+</script>
 {% endblock %}
 
 {% block modal %}
