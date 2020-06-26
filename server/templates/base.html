@@ -6,10 +6,10 @@
         <title>Food Recognizer</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('/static/semantic', filename='semantic.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('/static', filename='semantic/semantic.min.css') }}">
         <link rel="shortcut icon" href="{{ url_for('/static', filename='favicon.ico') }}">
-        <script src="{{ url_for('/static/js', filename='jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ url_for('/static/semantic', filename='semantic.min.js') }}"></script>
+        <script src="{{ url_for('/static', filename='js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ url_for('/static', filename='semantic/semantic.min.js') }}"></script>
         <style></style>
         {% block stylesheet %}{% endblock %}
     </head>
@@ -25,7 +25,7 @@
             {% block body %}{% endblock %}
         </div>
         {% block modal %}{% endblock %}
-        <script src="{{ url_for('/static/js', filename='bundle.js') }}"></script>
+        <script src="{{ url_for('/static', filename='js/bundle.js') }}"></script>
         {% block javascript %}{% endblock %}
     </body>
 </html>
