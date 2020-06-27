@@ -23,17 +23,28 @@
     </div>
   </div>
 
-  <button class="ui primary button" onclick="getPrediction()">Detect</button>
+  <button class="ui primary large button" onclick="getPrediction()">Detect</button>
   <canvas id="canvas"></canvas>
-<!--
-  <input type="file" id="image" accept="image/*"> 
-  <input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
--->
-  
+
 </div>
 <script>
+
+$("input:text").click(function() {
+  $(this).parent().find("input:file").click();
+});
+
+$('input:file', '.ui.action.input').on('change', function(e) {
+    var name = e.target.files[0].name;
+    $('input:text', $(e.target).parent()).val(name);
+});
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
+ctx.lineWidth = 2;  
+ctx.strokeStyle = "green";
+ctx.fillStyle = "yellow";
+ctx.font = "15px"
+
 var image = document.getElementById('image');
 var img = new Image();
 img.onload = function(){
@@ -58,10 +69,6 @@ image.addEventListener("change",function(event){
 	}
 });
 function drawPrediction(predictions){
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = "#00ff00";
-  ctx.fillStyle = "#ffcc00";
-
 	for(var i=0; i < predictions.length; i++){
 		var pred = predictions[i];
 		var label = pred.label;
