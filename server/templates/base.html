@@ -21,7 +21,7 @@
                 {% if session['user'] %}
                     {{ session['user'].username }}
                     <a class="ui item" href="/signout">Sign Out</a>
-                {% endif %}
+                {% else %}
                     <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>
                 {% endif %}
                 </div>
