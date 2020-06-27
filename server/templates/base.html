@@ -14,10 +14,17 @@
     <body>
         <div class="ui vertical center segment" style="height:100vh;">
             <div class="ui stackable container menu" style="min-height: 61px;">
-                <div class='item {% if request.path == "/" %}active{% endif %}'><a href="/"><img class="ui mini rounded image" src="/static/img/icon.png"></a></div>
+                <a class='item {% if request.path == "/" %}active{% endif %}' href="/"><img class="ui mini rounded image" src="/static/img/icon.png"></a>
                 <a class='item {% if request.path == "/documentation" %}active{% endif %}' href="/documentation">Documentation</a>
                 <a class='item {% if request.path == "/demonstration" %}active{% endif %}' href="/demonstration">Demonstration</a>
-                <div class="right menu"><a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a></div>
+                <div class="right menu">
+                {% if session['user'] %}
+                    {{ session['user'].username }}
+                    <a class="ui item" href="/signout">Sign Out</a>
+                {% endif %}
+                    <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>
+                {% endif %}
+                </div>
             </div>
             {% block body %}{% endblock %}
         </div>

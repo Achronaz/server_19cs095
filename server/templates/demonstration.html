@@ -5,14 +5,31 @@
 {% endblock %}
 
 {% block stylesheet %}
-<style></style>
+<style>
+.ui.action.input input[type="file"] {
+  display: none;
+}
+</style>
 {% endblock %}
 
 {% block body %}
 <div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
-  <input type="file" id="image" accept="image/*">
-  <input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
+
+  <div class="ui action input">
+    <input type="text" placeholder="select image" readonly>
+    <input type="file" id="image" accept="image/*">
+    <div class="ui icon button">
+      <i class="icon image"></i>
+    </div>
+  </div>
+
+  <button class="ui primary button" onclick="getPrediction()">Detect</button>
   <canvas id="canvas"></canvas>
+<!--
+  <input type="file" id="image" accept="image/*"> 
+  <input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
+-->
+  
 </div>
 <script>
 var canvas = document.getElementById('canvas');
@@ -41,6 +58,10 @@ image.addEventListener("change",function(event){
 	}
 });
 function drawPrediction(predictions){
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#00ff00";
+  ctx.fillStyle = "#ffcc00";
+
 	for(var i=0; i < predictions.length; i++){
 		var pred = predictions[i];
 		var label = pred.label;
@@ -51,9 +72,7 @@ function drawPrediction(predictions){
 		ctx.lineTo(pred.x2,pred.y2);
 		ctx.lineTo(pred.x1,pred.y2);
 		ctx.lineTo(pred.x1,pred.y1);
-		ctx.strokeStyle = "#00ff00";
 		ctx.stroke();
-		ctx.fillStyle = "#00ff00"
 		ctx.fillText(label+"("+similarity+")", pred.x1 + 10, pred.y1 +10);
 	}
 }
