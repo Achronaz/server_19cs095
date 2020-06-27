@@ -73,14 +73,14 @@ function drawPrediction(predictions){
     ctx.lineWidth = 2;  
     ctx.strokeStyle = "#00ff00";
     ctx.fillStyle = "#ffff00"
-    ctx.font = "16px Arial";
+    ctx.font = "14px Arial";
 		ctx.moveTo(pred.x1,pred.y1);
 		ctx.lineTo(pred.x2,pred.y1);
 		ctx.lineTo(pred.x2,pred.y2);
 		ctx.lineTo(pred.x1,pred.y2);
 		ctx.lineTo(pred.x1,pred.y1);
 		ctx.stroke();
-		ctx.fillText(label+"("+similarity+")", pred.x1 + 10, pred.y1 +10);
+		ctx.fillText(label+"("+similarity+")", pred.x1 + 5, pred.y1 +10);
 	}
 }
 function getPrediction(){
