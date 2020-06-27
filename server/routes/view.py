@@ -5,13 +5,13 @@ from flask import render_template, request
 def index():
     return render_template('index.html')
 
-@app.route('/docs', methods = ['GET'])
+@app.route('/documentation', methods = ['GET'])
 def docs():
-    return render_template('docs.html')
+    return render_template('documentation.html')
 
-@app.route('/demo', methods = ['GET'])
+@app.route('/demonstration', methods = ['GET'])
 def demo():
-    return render_template('demo.html')
+    return render_template('demonstration.html')
 
 @app.route('/register', methods = ['GET'])
 def register():

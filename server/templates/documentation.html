@@ -1,87 +1,85 @@
-<!DOCTYPE html>
-<html>
-<title>Food Recognition API</title>
-<body>
+{% extends "base.html" %}
 
-<h1>Documentation</h1>
-<table>
-	<tr>
-		<td><b>Method</b></td>
-		<td><b>Url</b></td>
-		<td><b>Descript</b></td>
-	</tr>
-	<tr>
-		<td>GET</td>
-		<td><a href="/">https://api.achronaz.com</a></td>
-		<td>documentation page</td>
-	</tr>
-	<tr>
-		<td>GET/POST</td>
-		<td><a href="/darknet/detect">https://api.achronaz.com/darknet/detect</a></td>
-		<td>detect image, render upload page if you GET, return bounding box json if you POST</td>
-	</tr>
-</table>
-<input type="file" id="image" accept="image/*">
-<input type="button" id="upload" value="detect" onclick="getPrediction()"><br>
-<canvas id="canvas"></canvas>
+{% block javascript %}
+<script></script>
+{% endblock %}
 
-<script>
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-var image = document.getElementById('image');
-var img = new Image();
-img.onload = function(){
-	canvas.width = img.width;
-	canvas.height = img.height;
-	ctx.drawImage(img, 0, 0, img.width, img.height);
-	rect = canvas.getBoundingClientRect();
-}
-image.addEventListener("change",function(event){
-	let file = event.target.files[0];
-	if(file.type.match('image.*')) {
-		let reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onload = function(event){
-			if( event.target.readyState == FileReader.DONE) {
-				img.src = event.target.result;
-				hasImg = true;
-			}
-		}    
-	} else {
-		alert("not an image");
-	}
-});
-function drawPrediction(predictions){
-	for(var i=0; i < predictions.length; i++){
-		var pred = predictions[i];
-		var label = pred.label;
-		var similarity = parseFloat(pred.similarity).toFixed(2);
-		ctx.beginPath();
-		ctx.moveTo(pred.x1,pred.y1);
-		ctx.lineTo(pred.x2,pred.y1);
-		ctx.lineTo(pred.x2,pred.y2);
-		ctx.lineTo(pred.x1,pred.y2);
-		ctx.lineTo(pred.x1,pred.y1);
-		ctx.strokeStyle = "#00ff00";
-		ctx.stroke();
-		ctx.fillStyle = "#00ff00"
-		ctx.fillText(label+"("+similarity+")", pred.x1 + 10, pred.y1 +10);
-	}
-}
-function getPrediction(){
-	var formData  = new FormData();
-	formData.append('file',image.files[0]);
-	fetch('https://api.achronaz.com/darknet/detect',{
-		method: 'POST',
-		body: formData
-	})
-	.then(response => response.json())
-	.then(function(response) {
-		console.log(response);
-		drawPrediction(response);
-	})
-}
+{% block stylesheet %}
+<style></style>
+{% endblock %}
 
-</script>
-</body>
-</html>
+{% block body %}
+<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
+    <h1 class="ui header">Documentation</h1>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="ui tiny modal container" id="modal_signin">
+    <div class="header">Sign in</div>
+    <div class="ui segment" style="border-top: 0;margin-top: 0;">
+        <div class="ui two column very relaxed stackable grid">
+          <div class="column">
+            <div class="ui form">
+              <div class="field">
+                <label>Username</label>
+                <div class="ui left icon input">
+                  <input type="text" name="username" placeholder="Username">
+                  <i class="user icon"></i>
+                </div>
+              </div>
+              <div class="field">
+                <label>Password</label>
+                <div class="ui left icon input">
+                  <input type="password" name="password" placeholder="Password">
+                  <i class="lock icon"></i>
+                </div>
+              </div>
+              <div class="ui blue submit button fluid">Sign in</div>
+            </div>
+          </div>
+          <div class="middle aligned column">
+            <div class="ui button fluid" onclick="$('#modal_signup').modal('show')">
+              <i class="signup icon"></i>
+              Sign Up
+            </div>
+          </div>
+        </div>
+        <div class="ui vertical divider">
+          Or
+        </div>
+      </div>
+</div>
+
+<div class="ui mini modal container" id="modal_signup">
+    <div class="header">Sign up</div>
+    <div class="content">
+        <form class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <div class="ui left icon input">
+                    <input type="text" name="username" placeholder="Username">
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <div class="ui left icon input">
+                    <input type="password" name="password" placeholder="Password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <div class="ui left icon input">
+                    <input type="password" name="repassword" placeholder="Confirm Password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <button class="ui button primary fluid" type="submit">Sign up</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
