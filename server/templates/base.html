@@ -26,34 +26,3 @@
         {% block javascript %}{% endblock %}
     </body>
 </html>
-<!--
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>Food Recognizer</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='semantic/semantic.min.css') }}">
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
-        <style></style>
-        {% block stylesheet %}{% endblock %}
-    </head>
-    <body>
-        <div class="ui vertical center segment" style="height:100vh;">
-            <div class="ui stackable container menu" style="min-height: 61px;">
-                <div class="item"><img class="ui mini rounded image" src="{{ url_for('static', filename='img/icon.png') }}"></div>
-                <a class='item {% if request.path == "/" %}active{% endif %}' href="/">Home</a>
-                <a class='item {% if request.path == "/docs" %}active{% endif %}' href="/docs">Docs</a>
-                <a class='item {% if request.path == "/demo" %}active{% endif %}' href="/demo">Demo</a>
-                <div class="right menu"><a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a></div>
-            </div>
-            {% block body %}{% endblock %}
-        </div>
-        {% block modal %}{% endblock %}
-        <script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
-        {% block javascript %}{% endblock %}
-    </body>
-</html>
--->
