@@ -40,10 +40,6 @@ $('input:file', '.ui.action.input').on('change', function(e) {
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-ctx.lineWidth = 2;  
-ctx.strokeStyle = "green";
-ctx.fillStyle = "yellow";
-ctx.font = "15px"
 
 var image = document.getElementById('image');
 var img = new Image();
@@ -69,6 +65,10 @@ image.addEventListener("change",function(event){
 	}
 });
 function drawPrediction(predictions){
+  ctx.lineWidth = 2;  
+  ctx.strokeStyle = "#00ff00";
+  ctx.fillStyle = "#ffff00"
+  ctx.font = "16px Arial";
 	for(var i=0; i < predictions.length; i++){
 		var pred = predictions[i];
 		var label = pred.label;
