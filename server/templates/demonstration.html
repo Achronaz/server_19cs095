@@ -97,7 +97,7 @@ function getPrediction(){
 	.then(function(response) {
 		console.log(response);
     drawPrediction(response);
-    $('#response').html(response);
+    $('#response').html(JSON.stringify(response));
 	})
 }
 
