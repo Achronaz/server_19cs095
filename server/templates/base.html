@@ -12,7 +12,7 @@
         {% block stylesheet %}{% endblock %}
     </head>
     <body>
-        <div class="ui vertical center segment" style="height:100vh;">
+        <div class="ui vertical center segment" style="min-height:90vh;">
             <div class="ui stackable container menu" style="min-height: 61px;">
                 <a class='item {% if request.path == "/" %}active{% endif %}' href="/"><img class="ui mini rounded image" src="/static/img/icon.png"></a>
                 <a class='item {% if request.path == "/docs" %}active{% endif %}' href="/docs">Docs</a>
