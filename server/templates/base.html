@@ -15,8 +15,8 @@
         <div class="ui vertical center segment" style="height:100vh;">
             <div class="ui stackable container menu" style="min-height: 61px;">
                 <a class='item {% if request.path == "/" %}active{% endif %}' href="/"><img class="ui mini rounded image" src="/static/img/icon.png"></a>
-                <a class='item {% if request.path == "/documentation" %}active{% endif %}' href="/documentation">Documentation</a>
-                <a class='item {% if request.path == "/demonstration" %}active{% endif %}' href="/demonstration">Demonstration</a>
+                <a class='item {% if request.path == "/docs" %}active{% endif %}' href="/docs">Docs</a>
+                <a class='item {% if request.path == "/demo" %}active{% endif %}' href="/demo">Demo</a>
                 <div class="right menu">
                 {% if session['user'] %}
                     {{ session['user'].username }}

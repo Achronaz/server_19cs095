@@ -5,11 +5,11 @@ from flask import render_template, request
 def index():
     return render_template('index.html')
 
-@app.route('/documentation', methods = ['GET'])
+@app.route('/docs', methods = ['GET'])
 def docs():
     return render_template('documentation.html')
 
-@app.route('/demonstration', methods = ['GET'])
+@app.route('/demo', methods = ['GET'])
 def demo():
     return render_template('demonstration.html')
 

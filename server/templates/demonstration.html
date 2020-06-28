@@ -24,7 +24,10 @@
   </div>
 
   <button class="ui primary large button" onclick="getPrediction()">Detect</button>
+  <p>Image:</p>
   <canvas id="canvas"></canvas>
+  <p>JSON Response:</p>
+  <pre id="response"></pre>
 
 </div>
 <script>
@@ -80,7 +83,7 @@ function drawPrediction(predictions){
 		ctx.lineTo(pred.x1,pred.y2);
 		ctx.lineTo(pred.x1,pred.y1);
 		ctx.stroke();
-		ctx.fillText(label+"("+similarity+")", pred.x1 + 5, pred.y1 +10);
+		ctx.fillText(label+"("+similarity+")", pred.x1 + 4, pred.y1 +12);
 	}
 }
 function getPrediction(){
@@ -93,7 +96,8 @@ function getPrediction(){
 	.then(response => response.json())
 	.then(function(response) {
 		console.log(response);
-		drawPrediction(response);
+    drawPrediction(response);
+    $('#response').html(response);
 	})
 }
 
