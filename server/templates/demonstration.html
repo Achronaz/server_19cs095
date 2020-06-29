@@ -13,21 +13,29 @@
 {% endblock %}
 
 {% block body %}
-<div class="ui container text" style="margin-top: 150px; margin-bottom: 150px;">
-
-  <div class="ui action input">
-    <input type="text" placeholder="select image" readonly>
-    <input type="file" id="image" accept="image/*">
-    <div class="ui icon button">
-      <i class="icon image"></i>
+<div class="ui container text">
+  <div class="ui two column stackable grid">
+    <div class="column">
+      <div class="ui segment">
+        <div class="ui action input">
+          <input type="text" placeholder="select image" readonly>
+          <input type="file" id="image" accept="image/*">
+          <div class="ui icon button">
+            <i class="icon image"></i>
+          </div>
+        </div>
+        <button class="ui primary large button" onclick="getPrediction()">Detect</button>
+        <p>Image:</p>
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui segment">
+        <p>JSON Response:</p>
+        <pre id="response"></pre>
+      </div>
     </div>
   </div>
-
-  <button class="ui primary large button" onclick="getPrediction()">Detect</button>
-  <p>Image:</p>
-  <canvas id="canvas"></canvas>
-  <p>JSON Response:</p>
-  <pre id="response"></pre>
 
 </div>
 <script>
