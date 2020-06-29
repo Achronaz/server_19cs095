@@ -55,7 +55,7 @@
                         <div class="ui negative message" style="display:none;">
                             <i class="close icon"></i>
                             <div class="header">Login fail</div>
-                            <p id="login_message"></p>
+                            <p id="login_message">{{}}</p>
                         </div>
                     </div>
                     <div class="middle aligned column">
@@ -104,7 +104,7 @@
                     <div class="ui negative message" style="display:none;">
                         <i class="close icon"></i>
                         <div class="header">Registration fail</div>
-                        <p id="registration_message"></p>
+                        <p id="registration_message">{{}}</p>
                     </div>
                     <div class="field">
                         <button class="ui button primary fluid" type="submit">Sign up</button>
@@ -113,9 +113,6 @@
             </div>
         </div>
 
-        
-
-        {% block modal %}{% endblock %}
         <script src="/static/js/bundle.js"></script>
         {% block javascript %}{% endblock %}
     </body>
