@@ -25,7 +25,7 @@
 				</div>
 			</div>
 
-			<button class="ui primary button" onclick="get_bbox()">Detect</button>
+			<button class="ui primary button" onclick="get_bbox()" id="btn1">Detect</button>
 			<p>supported classes (demo): chicken wings, french fries, hamburger, hot dog, pizza</p>
 			<h5>Image:</h5>
 			<canvas id="canvas"></canvas>
@@ -39,7 +39,7 @@
 			<div class="ui input focus">
 				<input type="text" name="foodkeyword" placeholder="food keyword">
 			</div>
-			<button class="ui primary button" onclick="search_recipes()">Search</button>
+			<button class="ui primary button" onclick="search_recipes()" id="btn2">Search</button>
 			<button class="ui button" onclick="$('#response_recipes').html('')">Clear</button>
 			<h5>JSON:</h5>
 			<pre id="response_recipes"></pre>
@@ -52,7 +52,7 @@
 			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
 			<div class="ui input focus"><input name="latlong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
 			<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
-			<button class="ui primary button" onclick="search_restaurants_list()">Search</button>
+			<button class="ui primary button" onclick="search_restaurants_list()" id="btn3">Search</button>
 			<button class="ui button" onclick="$('#response_restaurants_list').html('')">Clear</button>
 			<h5>JSON:</h5>
 			<pre id="response_restaurants_list"></pre>
@@ -63,7 +63,7 @@
 		<div class="ui segment" id="search_restaurants_details_form">
 			<h3>Restaurant Details</h3>
 			<div class="ui input focus"><input name="place_id" type="text" placeholder="place id"></div>
-			<button class="ui primary button" onclick="search_restaurants_details()">Search</button>
+			<button class="ui primary button" onclick="search_restaurants_details()" id="btn4">Search</button>
 			<button class="ui button" onclick="$('#response_restaurants_details').html('')">Clear</button>
 			<p>example place_id: ChIJv3gz8FAABDQR9wNAjYOeZb8</p>
 			<h5>JSON:</h5>
@@ -128,6 +128,7 @@
 		}
 	}
 	function get_bbox() {
+		$('#btn1').toggleClass('loading');
 		var formData = new FormData();
 		formData.append('file', image.files[0]);
 		fetch($('#server_endpoint').val() + '/darknet/detect', {
@@ -139,33 +140,46 @@
 			console.log(response);
 			drawPrediction(response);
 			$('#response_bbox').html(JSON.stringify(response, undefined, 4));
+			$('#btn1').toggleClass('loading');
 		})
 	}
 
 	function search_recipes(){
+		$('#btn2').toggleClass('loading');
 		var url = new URL($('#server_endpoint').val()+'/recipes/search');
 		url.searchParams.append('foodkeyword', $('#search_recipes_form').find('input[name="foodkeyword"]').val());
 		fetch(url, { method: 'GET'})
 		.then(response => response.json())
-		.then(response => $('#response_recipes').html(JSON.stringify(response, undefined, 4)))
+		.then(response => {
+			$('#response_recipes').html(JSON.stringify(response, undefined, 4));
+			$('#btn2').toggleClass('loading');
+		})
 	}
 
 	function search_restaurants_list(){
+		$('#btn3').toggleClass('loading');
 		var url = new URL($('#server_endpoint').val()+'/place/search');
 		url.searchParams.append('foodkeyword',$('#search_restaurants_list_form').find('input[name="foodkeyword"]').val());
 		url.searchParams.append('latlong',$('#search_restaurants_list_form').find('input[name="latlong"]').val());
 		url.searchParams.append('radius',$('#search_restaurants_list_form').find('input[name="radius"]').val());
 		fetch(url, {method: 'GET' })
 		.then(response => response.json())
-		.then(response => $('#response_restaurants_list').html(JSON.stringify(response, undefined, 4)))
+		.then(response => {
+			$('#response_restaurants_list').html(JSON.stringify(response, undefined, 4));
+			$('#btn3').toggleClass('loading');
+		})
 	}
 
 	function search_restaurants_details(){
+		$('#btn4').toggleClass('loading');
 		var url = new URL($('#server_endpoint').val()+'/place/details');
 		url.searchParams.append('place_id',$('#search_restaurants_details_form').find('input[name="place_id"]').val())
 		fetch(url, { method: 'GET' })
 		.then(response => response.json())
-		.then(response => $('#response_restaurants_details').html(JSON.stringify(response, undefined, 4)))
+		.then(response => {
+			$('#response_restaurants_details').html(JSON.stringify(response, undefined, 4))
+			$('#btn4').toggleClass('loading');
+		})
 	}
 </script>
 {% endblock %}
