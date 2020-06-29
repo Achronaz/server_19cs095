@@ -6,7 +6,11 @@ from flask import request, jsonify
 def rows2dicts(rows):
     return jsonify([row.as_dict() for row in rows])
 
-@app.route('/recipes/search/<input>', methods = ['GET'])
-def recipe_search(input):
-    rows = rows2dicts(Recipes.query.filter(Recipes.name.like('%'+input+'%') | Recipes.tags.like('%'+input+'%')).limit(10).all())
+@app.route('/recipes/search', methods = ['GET'])
+def recipe_search():
+    foodkeyword = request.args.get('foodkeyword', default="", type=str)
+    if foodkeyword == "":
+        return jsonify({"status":"error","message":"foodkeyword is not presented"})
+
+    rows = rows2dicts(Recipes.query.filter(Recipes.name.like('%'+foodkeyword+'%') | Recipes.tags.like('%'+foodkeyword+'%')).limit(10).all())
     return rows

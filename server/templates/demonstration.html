@@ -36,9 +36,10 @@
 		<div class="ui segment" id="search_recipes_form">
 			<h3>Recipes</h3>
 			<div class="ui input focus">
-				<input type="text" placeholder="food keyword">
+				<input type="text" name="foodkeyword" placeholder="food keyword">
 			</div>
 			<button class="ui primary button" onclick="search_recipes()">Search</button>
+			<button class="ui button" onclick="$('#response_recipes').html('')">Clear</button>
 			<h5>JSON:</h5>
 			<pre id="response_recipes"></pre>
 		</div>
@@ -48,9 +49,10 @@
 		<div class="ui segment" id="search_restaurants_list_form">
 			<h3>Restaurant List</h3>
 			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
-			<div class="ui input focus"><input name="LatLong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
+			<div class="ui input focus"><input name="latlong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
 			<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
-			<button class="ui primary button" onclick="search_restaurants()">Search</button>
+			<button class="ui primary button" onclick="search_restaurants_list()">Search</button>
+			<button class="ui button" onclick="$('#response_restaurants_list').html('')">Clear</button>
 			<h5>JSON:</h5>
 			<pre id="response_restaurants_list"></pre>
 		</div>
@@ -59,8 +61,10 @@
 	<div class="column">
 		<div class="ui segment" id="search_restaurants_details_form">
 			<h3>Restaurant Details</h3>
-			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="id"></div>
+			<div class="ui input focus"><input name="place_id" type="text" placeholder="place id"></div>
 			<button class="ui primary button" onclick="search_restaurants_details()">Search</button>
+			<button class="ui button" onclick="$('#response_restaurants_details').html('')">Clear</button>
+			<p>example place_id: ChIJv3gz8FAABDQR9wNAjYOeZb8</p>
 			<h5>JSON:</h5>
 			<pre id="response_restaurants_details"></pre>
 		</div>
@@ -138,30 +142,27 @@
 	}
 
 	function search_recipes(){
-		var foodkeyword = $('#search_recipes_form').find('input[name="foodkeyword"]').val();
-		fetch($('#server_endpoint').val()+`/recipes/search/${foodkeyword}`, { method: 'GET'})
+		var url = new URL($('#server_endpoint').val()+'/recipes/search');
+		url.searchParams.append('foodkeyword', $('#search_recipes_form').find('input[name="foodkeyword"]').val());
+		fetch(url, { method: 'GET'})
 		.then(response => response.json())
 		.then(response => $('#response_recipes').html(JSON.stringify(response, undefined, 4)))
 	}
 
 	function search_restaurants_list(){
-		var formData = new FormData();
-		formData.append('file', image.files[0]);
-		fetch($('#server_endpoint').val()+'/place/search', {
-			method: 'POST',
-			body: formData
-		})
+		var url = new URL($('#server_endpoint').val()+'/place/search');
+		url.searchParams.append('foodkeyword',$('#search_restaurants_list_form').find('input[name="foodkeyword"]').val());
+		url.searchParams.append('latlong',$('#search_restaurants_list_form').find('input[name="latlong"]').val());
+		url.searchParams.append('radius',$('#search_restaurants_list_form').find('input[name="radius"]').val());
+		fetch(url, {method: 'GET' })
 		.then(response => response.json())
 		.then(response => $('#response_restaurants_list').html(JSON.stringify(response, undefined, 4)))
 	}
 
 	function search_restaurants_details(){
-		var formData = new FormData();
-		formData.append('id', image.files[0]);
-		fetch($('#server_endpoint').val()+'/place/search', {
-			method: 'POST',
-			body: formData
-		})
+		var url = new URL($('#server_endpoint').val()+'/place/details');
+		url.searchParams.append('place_id',$('#search_restaurants_details_form').find('input[name="place_id"]').val())
+		fetch(url, { method: 'GET' })
 		.then(response => response.json())
 		.then(response => $('#response_restaurants_details').html(JSON.stringify(response, undefined, 4)))
 	}
