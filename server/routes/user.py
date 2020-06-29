@@ -3,47 +3,58 @@ from flask import request, jsonify, session, redirect, url_for
 from server.models.user import User
 from server.models.token import Token
 import secrets
+from sqlalchemy import exc
 
 @app.route('/user', methods = ['GET'])
 def user():
 
     return secrets.token_hex()
 
-@app.route('/user/register', methods = ['POST'])
+@app.route('/user/signup', methods = ['POST'])
 def user_register():
 
-    username = request.form.get("username", default=None, type=str)
-    password = request.form.get("password", default=None, type=str)
-    repassword = request.form.get("repassword", default=None, type=str)
+    username = request.form.get("username", default="", type=str)
+    password = request.form.get("password", default="", type=str)
+    repassword = request.form.get("repassword", default="", type=str)
 
-    if username is None or password is None or repassword is None:
+    if username == "" or password == "" or repassword == "":
         return jsonify({'status':'error','message':'username, password or repassword not presented'})
 
     if password != repassword:
         return jsonify({'status':'error','message':'password and repassword not match'})
 
-    user = User(username=username, password=bcrypt.generate_password_hash(password), role='user')
-    db.session.add(user)
-    db.session.commit()
+    try:
+        user = User(username=username, password=bcrypt.generate_password_hash(password), role='user')
+        db.session.add(user)
+        db.session.commit()
+    except exc.SQLAlchemyError as ex:
+        print(ex.args)
+        return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
+    except Exception:
+        return jsonify({'status':'error','message':'unknown error'})
 
-    return jsonify({'status':'success','message':'register success'})
+    return jsonify({'status':'success','message':'signup success'})
 
 @app.route('/user/signin', methods = ['POST'])
 def user_signin():
 
-    username = request.form.get("username", default=None, type=str)
-    password = request.form.get("password", default=None, type=str)
+    username = request.form.get("username", default="", type=str)
+    password = request.form.get("password", default="", type=str)
 
-    if username is None or password is None:
+    if username == "" or password == "":
         return jsonify({'status':'error','message':'username or password not presented'})
 
     #select from db, compare hashed password
-    user = User.query.filter_py(username=username).first()
+    user = User.query.filter_by(username=username).first()
 
     if not user or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'status':'error','message':'username or password incorrect'})
 
-    session['user'] = user
+    session['user'] = {
+        "userid":user.userid,
+        "username":user.username,
+        "role":user.role
+    }
     session.permanent = True
 
     return jsonify({'status':'success','message':'signin success'})
@@ -51,7 +62,7 @@ def user_signin():
 @app.route('/user/signout', methods = ['GET'])
 def user_signout():
     session['user'] = False
-    return redirect(url_for('/'))
+    return jsonify({'status':'success','message':'signout success'})
 
 @app.route('/user/add/token', methods = ['GET'])
 def user_add_token():

@@ -25,4 +25,8 @@ from flask_cors import CORS
 CORS(app)
 
 # routes
+@app.context_processor
+def inject_global():
+    return dict(server_endpoint=config['SERVER_ENDPOINT'])
+
 from server.routes import *

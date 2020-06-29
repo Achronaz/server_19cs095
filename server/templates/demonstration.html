@@ -6,105 +6,164 @@
 
 {% block stylesheet %}
 <style>
-.ui.action.input input[type="file"] {
-  display: none;
-}
+	.ui.action.input input[type="file"] {
+		display: none;
+	}
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="ui stackable one column vertically divided grid container">
-  <div class="column">
-    <div class="ui segment">
-      <div class="ui action input" id="selectImage">
-        <input type="text" placeholder="select image" readonly>
-        <input type="file" id="image" accept="image/*">
-        <div class="ui icon button">
-          <i class="icon image"></i>
-        </div>
-      </div>
-      <button class="ui primary large button" onclick="getPrediction()">Detect</button>
-      <h5>Image:</h5>
-      <canvas id="canvas"></canvas>
-    </div>
-  </div>
-  <div class="column">
-    <div class="ui segment">
-      <h5>JSON Response:</h5>
-      <pre id="response"></pre>
-    </div>
-  </div>
+	<div class="column">
+		<div class="ui segment">
+			<h3>Bounding Box</h3>
+			<div class="ui action input">
+				<input type="text" placeholder="Select Image" readonly>
+				<input id="image" type="file" accept="image/*">
+				<div class="ui icon button">
+					<i class="icon image"></i>
+				</div>
+			</div>
+
+			<button class="ui primary button" onclick="get_bbox()">Detect</button>
+			<h5>Image:</h5>
+			<canvas id="canvas"></canvas>
+			<h5>JSON:</h5>
+			<pre id="response_bbox"></pre>
+		</div>
+	</div>
+	<div class="column">
+		<div class="ui segment" id="search_recipes_form">
+			<h3>Recipes</h3>
+			<div class="ui input focus">
+				<input type="text" placeholder="food keyword">
+			</div>
+			<button class="ui primary button" onclick="search_recipes()">Search</button>
+			<h5>JSON:</h5>
+			<pre id="response_recipes"></pre>
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="ui segment" id="search_restaurants_list_form">
+			<h3>Restaurant List</h3>
+			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
+			<div class="ui input focus"><input name="LatLong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
+			<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
+			<button class="ui primary button" onclick="search_restaurants()">Search</button>
+			<h5>JSON:</h5>
+			<pre id="response_restaurants_list"></pre>
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="ui segment" id="search_restaurants_details_form">
+			<h3>Restaurant Details</h3>
+			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="id"></div>
+			<button class="ui primary button" onclick="search_restaurants_details()">Search</button>
+			<h5>JSON:</h5>
+			<pre id="response_restaurants_details"></pre>
+		</div>
+	</div>
 </div>
 <script>
 
-$("#selectImage").click(function() {
-  $(this).parent().find("input:file").click();
-});
+	$("input:text").click(function () {
+		$(this).parent().find("input:file").click();
+	});
 
-$('input:file', '.ui.action.input').on('change', function(e) {
-    var name = e.target.files[0].name;
-    $('input:text', $(e.target).parent()).val(name);
-});
+	$('input:file', '.ui.action.input').on('change', function (e) {
+		var name = e.target.files[0].name;
+		$('input:text', $(e.target).parent()).val(name);
+	});
 
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
 
-var image = document.getElementById('image');
-var img = new Image();
-img.onload = function(){
-	canvas.width = img.width;
-	canvas.height = img.height;
-	ctx.drawImage(img, 0, 0, img.width, img.height);
-	rect = canvas.getBoundingClientRect();
-}
-image.addEventListener("change",function(event){
-	let file = event.target.files[0];
-	if(file.type.match('image.*')) {
-		let reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onload = function(event){
-			if( event.target.readyState == FileReader.DONE) {
-				img.src = event.target.result;
-				hasImg = true;
+	var image = document.getElementById('image');
+	var img = new Image();
+	img.onload = function () {
+		canvas.width = img.width;
+		canvas.height = img.height;
+		ctx.drawImage(img, 0, 0, img.width, img.height);
+		rect = canvas.getBoundingClientRect();
+	}
+	image.addEventListener("change", function (event) {
+		let file = event.target.files[0];
+		if (file.type.match('image.*')) {
+			let reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function (event) {
+				if (event.target.readyState == FileReader.DONE) {
+					img.src = event.target.result;
+					hasImg = true;
+				}
 			}
-		}    
-	} else {
-		alert("not an image");
+		} else {
+			alert("not an image");
+		}
+	});
+	function drawPrediction(predictions) {
+		for (var i = 0; i < predictions.length; i++) {
+			var pred = predictions[i];
+			var label = pred.label;
+			var similarity = parseFloat(pred.similarity).toFixed(2);
+			ctx.beginPath();
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = "#00ff00";
+			ctx.fillStyle = "#ffff00"
+			ctx.font = "14px Arial";
+			ctx.moveTo(pred.x1, pred.y1);
+			ctx.lineTo(pred.x2, pred.y1);
+			ctx.lineTo(pred.x2, pred.y2);
+			ctx.lineTo(pred.x1, pred.y2);
+			ctx.lineTo(pred.x1, pred.y1);
+			ctx.stroke();
+			ctx.fillText(label + "(" + similarity + ")", pred.x1 + 4, pred.y1 + 12);
+		}
 	}
-});
-function drawPrediction(predictions){
-	for(var i=0; i < predictions.length; i++){
-		var pred = predictions[i];
-		var label = pred.label;
-		var similarity = parseFloat(pred.similarity).toFixed(2);
-    ctx.beginPath();
-    ctx.lineWidth = 2;  
-    ctx.strokeStyle = "#00ff00";
-    ctx.fillStyle = "#ffff00"
-    ctx.font = "14px Arial";
-		ctx.moveTo(pred.x1,pred.y1);
-		ctx.lineTo(pred.x2,pred.y1);
-		ctx.lineTo(pred.x2,pred.y2);
-		ctx.lineTo(pred.x1,pred.y2);
-		ctx.lineTo(pred.x1,pred.y1);
-		ctx.stroke();
-		ctx.fillText(label+"("+similarity+")", pred.x1 + 4, pred.y1 +12);
+	function get_bbox() {
+		var formData = new FormData();
+		formData.append('file', image.files[0]);
+		fetch($('#server_endpoint').val() + '/darknet/detect', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(function (response) {
+			console.log(response);
+			drawPrediction(response);
+			$('#response_bbox').html(JSON.stringify(response, undefined, 4));
+		})
 	}
-}
-function getPrediction(){
-	var formData  = new FormData();
-	formData.append('file',image.files[0]);
-	fetch('https://api.achronaz.com/darknet/detect',{
-		method: 'POST',
-		body: formData
-	})
-	.then(response => response.json())
-	.then(function(response) {
-		console.log(response);
-    drawPrediction(response);
-    $('#response').html(JSON.stringify(response, undefined, 4));
-	})
-}
 
+	function search_recipes(){
+		var foodkeyword = $('#search_recipes_form').find('input[name="foodkeyword"]').val();
+		fetch($('#server_endpoint').val()+`/recipes/search/${foodkeyword}`, { method: 'GET'})
+		.then(response => response.json())
+		.then(response => $('#response_recipes').html(JSON.stringify(response, undefined, 4)))
+	}
+
+	function search_restaurants_list(){
+		var formData = new FormData();
+		formData.append('file', image.files[0]);
+		fetch($('#server_endpoint').val()+'/place/search', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(response => $('#response_restaurants_list').html(JSON.stringify(response, undefined, 4)))
+	}
+
+	function search_restaurants_details(){
+		var formData = new FormData();
+		formData.append('id', image.files[0]);
+		fetch($('#server_endpoint').val()+'/place/search', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(response => $('#response_restaurants_details').html(JSON.stringify(response, undefined, 4)))
+	}
 </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 /* 
   for dump.sql (include structure and data)
-  download from: 
+  download from: xxx
 */
 
 /* recipes table */
@@ -42,3 +42,4 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `token` ADD FOREIGN KEY (`userid`) REFERENCES `user`(`userid`);
+ALTER TABLE `user` ADD CONSTRAINT uc_username UNIQUE (username);
