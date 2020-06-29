@@ -1,3 +1,4 @@
-SQLALCHEMY_DATABASE_URI: mysql+pymysql://shkuser:shkpassword@127.0.0.1:3306/db_19cs095
+#SQLALCHEMY_DATABASE_URI: mysql+pymysql://shkuser:shkpassword@127.0.0.1:3306/db_19cs095
+SQLALCHEMY_DATABASE_URI: mysql+pymysql://mysql_achronaz:$Rr64341649@127.0.0.1:3306/db_19cs095
 GOOGLE_PLACE_API_ENDPOINT: https://maps.googleapis.com/maps/api/place
 GOOGLE_PLACE_API_KEY: AIzaSyDTra46T44xFdOklqS4S2WRbBcJD7jZHOE
