@@ -52,7 +52,7 @@
                             </div>
                             <div class="ui blue submit button fluid">Sign in</div>
                         </div>
-                        <div class="ui negative message" style="display:none;">
+                        <div id="login_fail" class="ui negative message" style="display:none;">
                             <i class="close icon"></i>
                             <div class="header">Login fail</div>
                             <p id="login_message"></p>
@@ -96,18 +96,18 @@
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <div class="ui success message" style="display:none;">
+                    <div class="field">
+                        <button class="ui button primary fluid" type="submit">Sign up</button>
+                    </div>
+                    <div id="registration_success" class="ui positive message" style="display:none;">
                         <i class="close icon"></i>
                         <div class="header">Registration success</div>
                         <p>You may now log-in with the username you have chosen.</p>
                     </div>
-                    <div class="ui negative message" style="display:none;">
+                    <div id="registration_fail" class="ui negative message" style="display:none;">
                         <i class="close icon"></i>
                         <div class="header">Registration fail</div>
                         <p id="registration_message"></p>
-                    </div>
-                    <div class="field">
-                        <button class="ui button primary fluid" type="submit">Sign up</button>
                     </div>
                 </form>
             </div>
