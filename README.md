@@ -7,6 +7,9 @@
 # cuDNN >= 7.0 for CUDA 10.0    
 # GPU with CC >= 3.0
 
+# setup environment for Darknet on Ubuntu 18.04.4
+https://gist.github.com/Achronaz/9665f7b838835e9602d99aae0c42e759
+
 git clone https://github.com/Achronaz/server_19cs095
 cd server_19cs095
 
