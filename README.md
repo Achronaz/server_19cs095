@@ -1,10 +1,14 @@
+# Introduction
+```
+RESTful food recognition API based on YOLOv4
+```
 # Requirement (Linux)
 ```
-# CMake >= 3.12
-# CUDA 10.0
-# OpenCV >= 2.4
-# cuDNN >= 7.0 for CUDA 10.0    
-# GPU with CC >= 3.0
+CMake >= 3.12
+CUDA 10.0
+OpenCV >= 2.4
+cuDNN >= 7.0 for CUDA 10.0    
+GPU with CC >= 3.0
 ```
 # install CUDA
 ```
