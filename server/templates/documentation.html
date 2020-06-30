@@ -20,7 +20,8 @@
                     <tr>
                       <th>Request Method</th>
                       <th>Path</th>
-                      <th>Queriy String/Multi-Part Body</th>
+                      <th>Query Params</th>
+                      <th>Query String</th>
                       <th>Description</th>
                     </tr>
                 </thead>
@@ -28,26 +29,34 @@
                     <tr>
                         <td>POST</td>
                         <td>/darknet/detect</td>
+                        <td>image: file</td>
                         <td></td>
-                        <td></td>
+                        <td>get bounding box detection from uploaded image</td>
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/recipes/search</td>
                         <td></td>
-                        <td></td>
+                        <td>foodkeyword: String</td>
+                        <td>search list of recipes by food keyword</td>
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/place/search</td>
                         <td></td>
-                        <td></td>
+                        <td>
+                            foodkeyword: String<br>
+                            latlong: String, optional<br>
+                            radius: Integer, optional
+                        </td>
+                        <td>search list of restaurants by food keyword, result can be filtered by latlong and radius</td>
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/place/details</td>
                         <td></td>
-                        <td></td>
+                        <td>place_id: String</td>
+                        <td>get more details of the restaurant by place_id (included in the restaurant list)</td>
                     </tr>
                 </tbody>
             </table>
