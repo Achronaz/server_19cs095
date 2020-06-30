@@ -1,8 +1,5 @@
-# Introduction
-```
-RESTful food recognition API based on YOLOv4
-```
-# Requirement (Linux)
+# RESTful food recognition API based on YOLOv4
+## Requirement (Linux)
 ```
 CMake >= 3.12
 CUDA 10.0
@@ -10,12 +7,12 @@ OpenCV >= 2.4
 cuDNN >= 7.0 for CUDA 10.0    
 GPU with CC >= 3.0
 ```
-# install CUDA
+## install CUDA
 ```
 wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.105_418.39_linux.run
 sudo sh cuda_10.1.105_418.39_linux.run
 ```
-# install CUDNN
+## install CUDNN
 ```
 # 1. download cudnn from https://developer.nvidia.com/cudnn
 # * must login and download manually, the file may broken if you using wget to download
@@ -28,7 +25,7 @@ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 
 # more details on https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 ```
-# build OpenCV with CUDA
+## build OpenCV with CUDA
 ```
 # OS	: Ubuntu 18.04.4
 # Date	: 11-JUN-2020	
@@ -78,7 +75,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 sudo make -j"$(nproc)" install
 #sudo ldconfig
 ```
-# clone and run the server
+## clone and run the server
 ```
 git clone https://github.com/Achronaz/server_19cs095
 cd server_19cs095
