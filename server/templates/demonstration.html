@@ -112,7 +112,7 @@
 		for (var i = 0; i < predictions.length; i++) {
 			var pred = predictions[i];
 			var label = pred.label;
-			var similarity = parseFloat(pred.similarity).toFixed(2);
+			var prob = parseFloat(pred.prob).toFixed(2);
 			ctx.beginPath();
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = "#00ff00";
@@ -124,7 +124,7 @@
 			ctx.lineTo(pred.x1, pred.y2);
 			ctx.lineTo(pred.x1, pred.y1);
 			ctx.stroke();
-			ctx.fillText(label + "(" + similarity + ")", pred.x1 + 4, pred.y1 + 12);
+			ctx.fillText(label + "(" + prob + ")", pred.x1 + 4, pred.y1 + 12);
 		}
 	}
 	function get_bbox() {
