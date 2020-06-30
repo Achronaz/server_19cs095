@@ -49,19 +49,17 @@ def predict(filepath):
         temp.append({'label':label,'prob':prob,'x1':x1,'y1':y1,'x2':x2,'y2':y2})
     return jsonify(temp)
 
-@app.route('/darknet/detect', methods=['GET', 'POST'])
+@app.route('/darknet/detect', methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        print(request.files)
-        if 'file' not in request.files:
-            return jsonify({'msg':'no file part'})
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'msg':'no selected file'})
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            base, ext = os.path.splitext(filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], str(uuid.uuid4()) + ext )
-            file.save(filepath)
-            return predict(filepath)
-    return render_template('documentation.html')
+    print(request.files)
+    if 'file' not in request.files:
+        return jsonify({'status':'error','message':'no file part'})
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'status':'error','message':'no selected file'})
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        base, ext = os.path.splitext(filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], str(uuid.uuid4()) + ext )
+        file.save(filepath)
+        return predict(filepath)
