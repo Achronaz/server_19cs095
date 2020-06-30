@@ -37,7 +37,7 @@ def predict(filepath):
     height = img.size[1]
     for prediction in predictions:
         label = prediction[0]
-        similarity = prediction[1]
+        prob = prediction[1]
         cx = prediction[2][0]
         cy = prediction[2][1]
         w = prediction[2][2]
@@ -46,7 +46,7 @@ def predict(filepath):
         y1 = cy - h / 2
         x2 = cx + w / 2
         y2 = cy + h / 2
-        temp.append({'label':label,'similarity':similarity,'x1':x1,'y1':y1,'x2':x2,'y2':y2})
+        temp.append({'label':label,'prob':prob,'x1':x1,'y1':y1,'x2':x2,'y2':y2})
     return jsonify(temp)
 
 @app.route('/darknet/detect', methods=['GET', 'POST'])
