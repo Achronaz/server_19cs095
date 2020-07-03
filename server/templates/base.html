@@ -19,9 +19,9 @@
                 <a class='item {% if request.path == "/docs" %}active{% endif %}' href="/docs">Docs</a>
                 <a class='item {% if request.path == "/demo" %}active{% endif %}' href="/demo">Demo</a>
                 {% if session['user'] %}
-                <a class='item {% if request.path == "/apikey" %}active{% endif %}' href="/apikey">API Key</a>
+                <a class='item {% if request.path == "/api-key" %}active{% endif %}' href="/api-key">API Key</a>
                 {% if session['user'].role == 'admin' %}
-                <a class='item {% if request.path == "/user/manage" %}active{% endif %}' href="/user/manage">Manage User</a>
+                <a class='item {% if request.path == "/user/manage" %}active{% endif %}' href="/user/manage">User</a>
                 {% endif %}
                 {% endif %}
                 <div class="right menu">

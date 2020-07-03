@@ -15,63 +15,60 @@
 {% block body %}
 <div class="ui stackable one column vertically divided grid container">
 	<div class="column">
-		<div class="ui segment">
-			<h3>Bounding Box</h3>
-			<div class="ui action input">
-				<input type="text" placeholder="Select Image" readonly>
-				<input id="image" type="file" accept="image/*">
-				<div class="ui icon button">
-					<i class="icon image"></i>
+		<div class="ui styled fluid accordion">
+			<div class="title active"><i class="dropdown icon"></i>Bounding Box</div>
+			<div class="content active">
+				<div class="ui action input">
+					<input type="text" placeholder="Select Image" readonly>
+					<input id="image" type="file" accept="image/*">
+					<div class="ui icon button">
+						<i class="icon image"></i>
+					</div>
 				</div>
+				<button class="ui primary button" onclick="get_bbox()" id="btn1">Detect</button>
+				<p>supported classes (demo): chicken wings, french fries, hamburger, hot dog, pizza</p>
+				<h5>Image:</h5>
+				<canvas id="canvas"></canvas>
+				<h5>JSON:</h5>
+				<pre id="response_bbox"></pre>
 			</div>
-
-			<button class="ui primary button" onclick="get_bbox()" id="btn1">Detect</button>
-			<p>supported classes (demo): chicken wings, french fries, hamburger, hot dog, pizza</p>
-			<h5>Image:</h5>
-			<canvas id="canvas"></canvas>
-			<h5>JSON:</h5>
-			<pre id="response_bbox"></pre>
-		</div>
-	</div>
-	<div class="column">
-		<div class="ui segment" id="search_recipes_form">
-			<h3>Recipes</h3>
-			<div class="ui input focus">
-				<input type="text" name="foodkeyword" placeholder="food keyword">
+			<div class="title"><i class="dropdown icon"></i>Recipes</div>
+			<div class="content">
+				<div class="ui input focus">
+					<input type="text" name="foodkeyword" placeholder="food keyword">
+				</div>
+				<button class="ui primary button" onclick="search_recipes()" id="btn2">Search</button>
+				<button class="ui button" onclick="$('#response_recipes').html('')">Clear</button>
+				<h5>JSON:</h5>
+				<pre id="response_recipes"></pre>
 			</div>
-			<button class="ui primary button" onclick="search_recipes()" id="btn2">Search</button>
-			<button class="ui button" onclick="$('#response_recipes').html('')">Clear</button>
-			<h5>JSON:</h5>
-			<pre id="response_recipes"></pre>
-		</div>
-	</div>
-
-	<div class="column">
-		<div class="ui segment" id="search_restaurants_list_form">
-			<h3>Restaurant List</h3>
-			<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
-			<div class="ui input focus"><input name="latlong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
-			<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
-			<button class="ui primary button" onclick="search_restaurants_list()" id="btn3">Search</button>
-			<button class="ui button" onclick="$('#response_restaurants_list').html('')">Clear</button>
-			<h5>JSON:</h5>
-			<pre id="response_restaurants_list"></pre>
-		</div>
-	</div>
-
-	<div class="column">
-		<div class="ui segment" id="search_restaurants_details_form">
-			<h3>Restaurant Details</h3>
-			<div class="ui input focus"><input name="place_id" type="text" placeholder="place id"></div>
-			<button class="ui primary button" onclick="search_restaurants_details()" id="btn4">Search</button>
-			<button class="ui button" onclick="$('#response_restaurants_details').html('')">Clear</button>
-			<p>example place_id: ChIJv3gz8FAABDQR9wNAjYOeZb8</p>
-			<h5>JSON:</h5>
-			<pre id="response_restaurants_details"></pre>
-		</div>
+			<div class="title"><i class="dropdown icon"></i>Restaurant List</div>
+			<div class="content">
+				<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
+				<div class="ui input focus"><input name="latlong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
+				<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
+				<button class="ui primary button" onclick="search_restaurants_list()" id="btn3">Search</button>
+				<button class="ui button" onclick="$('#response_restaurants_list').html('')">Clear</button>
+				<h5>JSON:</h5>
+				<pre id="response_restaurants_list"></pre>
+			</div>
+			<div class="title"><i class="dropdown icon"></i>Restaurant Details</div>
+			<div class="content">
+				<div class="ui input focus"><input name="place_id" type="text" placeholder="place id"></div>
+				<button class="ui primary button" onclick="search_restaurants_details()" id="btn4">Search</button>
+				<button class="ui button" onclick="$('#response_restaurants_details').html('')">Clear</button>
+				<p>example place_id: ChIJv3gz8FAABDQR9wNAjYOeZb8</p>
+				<h5>JSON:</h5>
+				<pre id="response_restaurants_details"></pre>
+			</div>
+	  	</div>
 	</div>
 </div>
 <script>
+	$(document).ready(function(){
+		$('.ui.accordion').accordion();
+	});
+
 
 	$("input:text").click(function () {
 		$(this).parent().find("input:file").click();
@@ -130,7 +127,7 @@
 	function get_bbox() {
 		$('#btn1').toggleClass('loading');
 		var formData = new FormData();
-		formData.append('file', image.files[0]);
+		formData.append('image', image.files[0]);
 		fetch($('#server_endpoint').val() + '/darknet/detect', {
 			method: 'POST',
 			body: formData

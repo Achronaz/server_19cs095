@@ -11,7 +11,7 @@ def user():
     return secrets.token_hex()
 
 @app.route('/user/signup', methods = ['POST'])
-def user_register():
+def user_signup():
 
     username = request.form.get("username", default="", type=str)
     password = request.form.get("password", default="", type=str)
@@ -64,16 +64,6 @@ def user_signout():
     session['user'] = False
     return jsonify({'status':'success','message':'signout success'})
 
-@app.route('/user/add/token', methods = ['GET'])
-def user_add_token():
-    token = secrets.token_hex()
-    token = Token(session['user'].userid, token)
-    return request.url
-
-@app.route('/user/remove/token', methods = ['GET'])
-def user_remove_token():
-    return request.url
-
 # need admin right
 @app.route('/admin/add/user', methods = ['GET'])
 def admin_add_user():
@@ -87,10 +77,3 @@ def admin_edit_user():
 def admin_remove_user():
     return request.url
 
-@app.route('/admin/add/token', methods = ['GET'])
-def admin_add_token():
-    return request.url
-
-@app.route('/admin/remove/token', methods = ['GET'])
-def admin_remove_token():
-    return request.url

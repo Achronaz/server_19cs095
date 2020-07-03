@@ -29,7 +29,16 @@
                     <tr>
                         <td>POST</td>
                         <td>/darknet/detect</td>
-                        <td>image: file</td>
+                        <td>
+                            <table class="ui celled table">
+                                <thead>
+                                    <tr><th>Key</th><th>Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>image</td><td>file(image/*)</td></tr>
+                                </tbody>
+                            </table>
+                        </td>
                         <td></td>
                         <td>get bounding box detection from uploaded image</td>
                     </tr>
@@ -37,7 +46,16 @@
                         <td>GET</td>
                         <td>/recipes/search</td>
                         <td></td>
-                        <td>foodkeyword: String</td>
+                        <td>
+                            <table class="ui celled table">
+                                <thead>
+                                    <tr><th>Key</th><th>Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>foodkeyword</td><td>String</td></tr>
+                                </tbody>
+                            </table>
+                        </td>
                         <td>search list of recipes by food keyword</td>
                     </tr>
                     <tr>
@@ -45,9 +63,16 @@
                         <td>/place/search</td>
                         <td></td>
                         <td>
-                            foodkeyword: String<br>
-                            latlong: String, optional<br>
-                            radius: Integer, optional
+                            <table class="ui celled table">
+                                <thead>
+                                    <tr><th>Key</th><th>Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>foodkeyword</td><td>String</td></tr>
+                                    <tr><td>latlng</td><td>String</td></tr>
+                                    <tr><td>radius</td><td>Integer</td></tr>
+                                </tbody>
+                            </table>
                         </td>
                         <td>search list of restaurants by food keyword, result can be filtered by latlong and radius</td>
                     </tr>
@@ -55,7 +80,16 @@
                         <td>GET</td>
                         <td>/place/details</td>
                         <td></td>
-                        <td>place_id: String</td>
+                        <td>
+                            <table class="ui celled table">
+                                <thead>
+                                    <tr><th>Key</th><th>Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>place_id</td><td>String</td></tr>
+                                </tbody>
+                            </table>
+                        </td>
                         <td>get more details of the restaurant by place_id (included in the restaurant list)</td>
                     </tr>
                 </tbody>
