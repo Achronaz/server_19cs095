@@ -1,4 +1,3 @@
-
 import sys, os
 sys.path.append('../../darknet')
 import darknet.darknet as dn
@@ -52,9 +51,9 @@ def predict(filepath):
 @app.route('/darknet/detect', methods=['POST'])
 def upload_file():
     print(request.files)
-    if 'file' not in request.files:
+    if 'image' not in request.files:
         return jsonify({'status':'error','message':'no file part'})
-    file = request.files['file']
+    file = request.files['image']
     if file.filename == '':
         return jsonify({'status':'error','message':'no selected file'})
     if file and allowed_file(file.filename):
