@@ -1,7 +1,11 @@
 import os
-from flask import Flask, session, render_template
+from flask import Flask, session, render_template, jsonify
 app = Flask(__name__,static_url_path='/static',static_folder='static',template_folder='templates')
 app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.realpath(__file__)) + '/upload'
+# utils
+def rows2dicts(rows):
+    return jsonify([row.as_dict() for row in rows])
+
 # bcrypt
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)

@@ -20,15 +20,17 @@
                     <tr>
                       <th>Request Method</th>
                       <th>Path</th>
+                      <th>Description</th>
                       <th>Query Params</th>
                       <th>Query String</th>
-                      <th>Description</th>
+                      
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>POST</td>
                         <td>/darknet/detect</td>
+                        <td>get bounding box detection from uploaded image</td>
                         <td>
                             <table class="ui celled table">
                                 <thead>
@@ -40,11 +42,12 @@
                             </table>
                         </td>
                         <td></td>
-                        <td>get bounding box detection from uploaded image</td>
+                        
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/recipes/search</td>
+                        <td>search list of recipes by food keyword.</td>
                         <td></td>
                         <td>
                             <table class="ui celled table">
@@ -56,11 +59,12 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td>search list of recipes by food keyword</td>
+                        
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/place/search</td>
+                        <td>search list of restaurants by food keyword, result can be filtered by latlong and radius.</td>
                         <td></td>
                         <td>
                             <table class="ui celled table">
@@ -74,11 +78,12 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td>search list of restaurants by food keyword, result can be filtered by latlong and radius</td>
+                        
                     </tr>
                     <tr>
                         <td>GET</td>
                         <td>/place/details</td>
+                        <td>get more details of the restaurant by place_id (included in the restaurant list.</td>
                         <td></td>
                         <td>
                             <table class="ui celled table">
@@ -90,7 +95,7 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td>get more details of the restaurant by place_id (included in the restaurant list)</td>
+                        
                     </tr>
                 </tbody>
             </table>

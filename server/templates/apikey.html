@@ -2,12 +2,20 @@
 {% block body %}
 <table class="ui celled table">
     <thead>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>ID</th>
+        <th>User</th>
+        <th>Key</th>
+        <th>Created Date</th>
     </thead>
     <tbody>
-        <!-- loop -->
+        {% for k in apikeyList %}
+            <tr>
+                <td>{{ k.tokenid }}</td>
+                <td>{{ k.userid }}</td>
+                <td>{{ k.token }}</td>
+                <td>{{ k.updated }}</td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}

@@ -22,13 +22,13 @@ CREATE TABLE `recipes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* token table (api key) */
-DROP TABLE IF EXISTS `token`;
-CREATE TABLE `token` (
-  `tokenid` int(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `apikey`;
+CREATE TABLE `apikey` (
+  `apikeyid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `apikey` varchar(255) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`tokenid`)
+  PRIMARY KEY (`apikeyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /* user table */
@@ -41,5 +41,6 @@ CREATE TABLE `user` (
   PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-ALTER TABLE `token` ADD FOREIGN KEY (`userid`) REFERENCES `user`(`userid`);
+ALTER TABLE `apikey` ADD FOREIGN KEY (`userid`) REFERENCES `user`(`userid`);
 ALTER TABLE `user` ADD CONSTRAINT uc_username UNIQUE (username);
+ALTER TABLE `user` ADD CONSTRAINT CHECK (`role` IN ('user','admin'));

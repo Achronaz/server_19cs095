@@ -1,13 +1,9 @@
-from server import app, db, bcrypt
+from server import app, db, bcrypt, rows2dicts
 from flask import request, jsonify, session, redirect, url_for
 from server.models.user import User
-from server.models.token import Token
+from server.models.apikey import ApiKey
 import secrets
 from sqlalchemy import exc
-
-#utils
-def rows2dicts(rows):
-    return jsonify([row.as_dict() for row in rows])
 
 @app.route('/user/add/apikey', methods = ['GET'])
 def user_add_apikey():
@@ -16,7 +12,7 @@ def user_add_apikey():
 
     user = session.get('user')
     try:
-        apikey = Token(session.get('user')['userid'], secrets.token_hex())
+        apikey = ApiKey(session.get('user')['userid'], secrets.token_hex())
         db.session.add(apikey)
         db.session.commit()
     except exc.SQLAlchemyError as ex:
@@ -33,7 +29,7 @@ def user_remove_apikey():
     if not session.get('user'):
         return jsonify({'status':'error','message':'permission denied, please signin!'})
     user = session.get('user')
-    target = Token.query.filter_by(tid=tid).first()
+    target = ApiKey.query.filter_by(tid=tid).first()
 
     if target is None:
         return jsonify({'status':'error','message':'apikey not found'})
@@ -57,9 +53,9 @@ def user_list_apikey():
         return jsonify({'status':'error','message':'permission denied, please signin!'})
     user = session.get('user')
     if user['role'] == 'admin':
-        return rows2dicts(Token.query.all())
+        return rows2dicts(ApiKey.query.all())
     else:
-        return rows2dicts(Token.query.filter_by(userid=user['userid']).all())
+        return rows2dicts(ApiKey.query.filter_by(userid=user['userid']).all())
 
 
 @app.route('/admin/add/apikey', methods = ['GET'])

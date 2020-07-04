@@ -9,6 +9,10 @@
 	.ui.action.input input[type="file"] {
 		display: none;
 	}
+	.preview-box {
+		overflow: scroll;
+		max-height: 500px;
+	}
 </style>
 {% endblock %}
 
@@ -30,36 +34,36 @@
 				<h5>Image:</h5>
 				<canvas id="canvas"></canvas>
 				<h5>JSON:</h5>
-				<pre id="response_bbox"></pre>
+				<pre id="response_bbox" class="preview-box"></pre>
 			</div>
 			<div class="title"><i class="dropdown icon"></i>Recipes</div>
-			<div class="content">
+			<div class="content" id="search_recipes_form">
 				<div class="ui input focus">
 					<input type="text" name="foodkeyword" placeholder="food keyword">
 				</div>
 				<button class="ui primary button" onclick="search_recipes()" id="btn2">Search</button>
 				<button class="ui button" onclick="$('#response_recipes').html('')">Clear</button>
 				<h5>JSON:</h5>
-				<pre id="response_recipes"></pre>
+				<pre id="response_recipes" class="preview-box"></pre>
 			</div>
 			<div class="title"><i class="dropdown icon"></i>Restaurant List</div>
-			<div class="content">
+			<div class="content" id="search_restaurants_list_form">
 				<div class="ui input focus"><input name="foodkeyword" type="text" placeholder="food keyword"></div>
 				<div class="ui input focus"><input name="latlong" type="text" placeholder="Lat,Long(22.280276,114.176953)"></div>
 				<div class="ui input focus"><input name="radius" type="text" placeholder="radius(1000)"></div>
 				<button class="ui primary button" onclick="search_restaurants_list()" id="btn3">Search</button>
 				<button class="ui button" onclick="$('#response_restaurants_list').html('')">Clear</button>
 				<h5>JSON:</h5>
-				<pre id="response_restaurants_list"></pre>
+				<pre id="response_restaurants_list" class="preview-box"></pre>
 			</div>
 			<div class="title"><i class="dropdown icon"></i>Restaurant Details</div>
-			<div class="content">
+			<div class="content" id="search_restaurants_details_form">
 				<div class="ui input focus"><input name="place_id" type="text" placeholder="place id"></div>
 				<button class="ui primary button" onclick="search_restaurants_details()" id="btn4">Search</button>
 				<button class="ui button" onclick="$('#response_restaurants_details').html('')">Clear</button>
 				<p>example place_id: ChIJv3gz8FAABDQR9wNAjYOeZb8</p>
 				<h5>JSON:</h5>
-				<pre id="response_restaurants_details"></pre>
+				<pre id="response_restaurants_details" class="preview-box"></pre>
 			</div>
 	  	</div>
 	</div>
@@ -155,16 +159,25 @@
 
 	function search_restaurants_list(){
 		$('#btn3').toggleClass('loading');
-		var url = new URL($('#server_endpoint').val()+'/place/search');
-		url.searchParams.append('foodkeyword',$('#search_restaurants_list_form').find('input[name="foodkeyword"]').val());
-		url.searchParams.append('latlong',$('#search_restaurants_list_form').find('input[name="latlong"]').val());
-		url.searchParams.append('radius',$('#search_restaurants_list_form').find('input[name="radius"]').val());
-		fetch(url, {method: 'GET' })
-		.then(response => response.json())
-		.then(response => {
-			$('#response_restaurants_list').html(JSON.stringify(response, undefined, 4));
-			$('#btn3').toggleClass('loading');
-		})
+		navigator.geolocation.getCurrentPosition(function(position) {
+
+			$('#search_restaurants_list_form').find('input[name="latlong"]').val(position.coords.latitude+","+position.coords.longitude);
+
+			var url = new URL($('#server_endpoint').val()+'/place/search');
+			url.searchParams.append('foodkeyword',$('#search_restaurants_list_form').find('input[name="foodkeyword"]').val());
+			url.searchParams.append('latlng',$('#search_restaurants_list_form').find('input[name="latlong"]').val());
+			url.searchParams.append('radius',$('#search_restaurants_list_form').find('input[name="radius"]').val());
+
+			fetch(url, {method: 'GET' })
+			.then(response => response.json())
+			.then(response => {
+				$('#response_restaurants_list').html(JSON.stringify(response, undefined, 4));
+				$('#btn3').toggleClass('loading');
+			});
+
+		});
+		
+		
 	}
 
 	function search_restaurants_details(){

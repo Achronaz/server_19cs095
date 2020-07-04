@@ -21,12 +21,12 @@
                 {% if session['user'] %}
                 <a class='item {% if request.path == "/api-key" %}active{% endif %}' href="/api-key">API Key</a>
                 {% if session['user'].role == 'admin' %}
-                <a class='item {% if request.path == "/user/manage" %}active{% endif %}' href="/user/manage">User</a>
+                <a class='item {% if request.path == "/user" %}active{% endif %}' href="/user">User</a>
                 {% endif %}
                 {% endif %}
                 <div class="right menu">
                 {% if session['user'] %}
-                    <a class="ui item">welcome, {{ session['user'].username }}</a>
+                    <a class="ui item">Hi, {{ session['user'].username }}</a>
                     <a class="ui item" onclick="signout()">Sign Out</a>
                 {% else %}
                     <a class="ui item" onclick="$('#modal_signin').modal('show')">Sign in</a>

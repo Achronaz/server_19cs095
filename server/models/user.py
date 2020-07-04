@@ -5,6 +5,7 @@ class User(db.Model):
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(255), nullable=False)
+    #apikeys = db.relationship('apikey', backref='user') 
     
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
