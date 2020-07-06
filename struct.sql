@@ -38,9 +38,9 @@ CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
-  PRIMARY KEY (`userid`)
+  PRIMARY KEY (`userid`),
+  UNIQUE (`username`),
+  CONSTRAINT CHECK (`role` IN ('user','admin'))
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `apikey` ADD FOREIGN KEY (`userid`) REFERENCES `user`(`userid`);
-ALTER TABLE `user` ADD CONSTRAINT uc_username UNIQUE (username);
-ALTER TABLE `user` ADD CONSTRAINT CHECK (`role` IN ('user','admin'));

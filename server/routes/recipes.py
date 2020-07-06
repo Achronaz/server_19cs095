@@ -1,13 +1,14 @@
-from server import app
+from server import app, rows2dicts, is_authenticated
 from server.models.recipes import Recipes
 from flask import request, jsonify
 
-#utils
-def rows2dicts(rows):
-    return jsonify([row.as_dict() for row in rows])
-
 @app.route('/recipes/search', methods = ['GET'])
 def recipe_search():
+
+    apikey = request.args.get('apikey', default="", type=str)
+    if not is_authenticated(apikey,request.environ['HTTP_HOST']):
+        return jsonify({"status":"error","message":"invalid api key."})
+
     foodkeyword = request.args.get('foodkeyword', default="", type=str)
     if foodkeyword == "":
         return jsonify({"status":"error","message":"foodkeyword is not presented"})

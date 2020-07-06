@@ -1,4 +1,4 @@
-from server import app, rows2dicts
+from server import app, db, rows2dicts
 from flask import render_template, request, session
 from server.models.apikey import ApiKey
 from server.models.user import User
@@ -20,9 +20,9 @@ def apikey():
     if session.get('user'):
         apikeyList = []
         if session.get('user')['role'] == 'admin':
-            apikeyList = rows2dicts(ApiKey.query.all())
+            apikeyList = db.session.query(ApiKey, User).join(User, User.userid==ApiKey.userid).all()
         else:
-            apikeyList = rows2dicts(ApiKey.query.filter_by(userid=user['userid']).all())
+            apikeyList = db.session.query(ApiKey, User).join(User, User.userid==ApiKey.userid).filter(ApiKey.userid==session.get('user')['userid']).all()
         return render_template('apikey.html',apikeyList=apikeyList)
     else:
         return "Permission Denied"
@@ -30,7 +30,7 @@ def apikey():
 @app.route('/user', methods = ['GET'])
 def manage_user():
     if session.get('user') and session.get('user')['role'] == 'admin':
-        userList = rows2dicts(User.query.all())
+        userList = User.query.all()
         return render_template('user.html',userList=userList)
     else:
         return "Permission Denied"

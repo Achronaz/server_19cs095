@@ -2,7 +2,7 @@ import sys, os
 sys.path.append('../../darknet')
 import darknet.darknet as dn
 
-from server import app
+from server import app, is_authenticated
 from flask import request, render_template
 
 # load YOLOv4 model
@@ -50,6 +50,11 @@ def predict(filepath):
 
 @app.route('/darknet/detect', methods=['POST'])
 def upload_file():
+
+    apikey = request.form.get('apikey', default="", type=str)
+    if not is_authenticated(apikey,request.environ['HTTP_HOST']):
+        return jsonify({"status":"error","message":"invalid api key."})
+
     print(request.files)
     if 'image' not in request.files:
         return jsonify({'status':'error','message':'no file part'})

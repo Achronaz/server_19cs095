@@ -1,2 +1,158 @@
 {% extends "base.html" %}
-{{ userList }}
+{% block body %}
+<div class="ui stackable one column vertically divided grid container">
+    <div class="column">
+        <button style="margin-bottom: 1rem;" class="ui button positive right floated" onclick="$('#modal_user_add').modal('show')">Create User</button>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th width="10%">ID</th>
+                    <th width="30%">Name</th>
+                    <th width="20%">Role</th>
+                    <th width="30%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in userList %}
+                    <tr>
+                        <td><div class="ui input fluid"><input name="userid" type="text" placeholder="Username" value="{{ user.userid }}" readonly></div></td>
+                        <td><div class="ui input fluid"><input name="username" type="text" placeholder="Username" value="{{ user.username }}"></div></td>
+                        <td>
+                            <select name="role" class="ui dropdown selection fluid">
+                                <option value="user" {% if user.role=='user' %}selected{% endif %}>user</option>
+                                <option value="admin" {% if user.role=='admin' %}selected{% endif %}>admin</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="ui button primary" onclick="update_user(this)">Update</button>
+                            <button class="ui button negative" onclick="delete_user(this)">Delete</button>
+                            <button class="ui button positive" onclick="add_api_key(this)">Create API Key</button>
+                        </td>
+                    </tr> 
+                {% endfor %}
+ 
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="ui mini modal container" id="modal_user_add">
+    <div class="header">Create User</div>
+    <div class="content">
+        <div id="user_add_form" class="ui form">
+            <div class="field">
+                <label>Username</label>
+                <div class="ui left icon input">
+                    <input type="text" name="username" placeholder="Username">
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <label>Role</label>
+                <select name="role" class="ui dropdown selection fluid">
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <div class="ui left icon input">
+                    <input type="password" name="password" placeholder="Password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <label>Confirm Password</label>
+                <div class="ui left icon input">
+                    <input type="password" name="repassword" placeholder="Confirm Password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <button class="ui button primary fluid" onclick="add_user()">Create</button>
+            </div>
+            <div id="user_add_success" class="ui positive message" style="display:none;">
+                <i class="close icon"></i>
+                <div class="header">User created.</div>
+            </div>
+            <div id="user_add_fail" class="ui negative message" style="display:none;">
+                <i class="close icon"></i>
+                <div class="header">Failed to create user.</div>
+                <p id="user_add_message"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+<script>
+function add_user(){
+    var username = $('#user_add_form').find('[name="username"]').val();
+    var password = $('#user_add_form').find('[name="password"]').val();
+    var repassword = $('#user_add_form').find('[name="repassword"]').val();
+    var role = $('#user_add_form').find('[name="role"]').val();
+
+    var formData  = new FormData();
+    formData.append('username',username);
+    formData.append('password',password);
+    formData.append('repassword',repassword);
+    formData.append('role',role);
+
+	fetch($('#server_endpoint').val()+'/user/add',{
+		method: 'POST',
+		body: formData
+	})
+	.then(response => response.json())
+	.then(function(response) {
+        if(response.status == 'success'){
+            $('#user_add_success').show();
+        } else {
+            $('#user_add_message').html(response.message);
+            $('#user_add_fail').show();
+        }
+    }).catch(err=>console.log(err))
+
+}
+
+function update_user(event){
+    var userid = $(event).closest('tr').find('[name="userid"]').val();
+    var username = $(event).closest('tr').find('[name="username"]').val();
+    var role = $(event).closest('tr').find('[name="role"]').val();
+
+    var url = new URL($('#server_endpoint').val()+'/user/update');
+    url.searchParams.append('userid', userid);
+    url.searchParams.append('username', username);
+    url.searchParams.append('role', role);
+
+    fetch(url, { method: 'GET'})
+    .then(response => response.json())
+	.then(response => {
+        console.log(response);
+	})
+
+}
+
+function add_api_key(event){
+    var url = new URL($('#server_endpoint').val()+'/admin/apikey/create');
+    url.searchParams.append('apikeyid', apikeyid);
+    fetch(url, { method: 'GET'})
+    .then(response => response.json())
+	.then(response => window.location.reload())
+}
+
+function delete_user(event){
+    var userid = $(event).closest('tr').find('[name="userid"]').val();
+
+    var url = new URL($('#server_endpoint').val()+'/user/delete');
+    url.searchParams.append('userid', userid);
+
+    fetch(url, { method: 'GET'})
+    .then(response => response.json())
+	.then(response => {
+        console.log(response);
+	})
+}
+
+</script>
+{% endblock %}

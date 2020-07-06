@@ -1,21 +1,70 @@
 {% extends "base.html" %}
 {% block body %}
-<table class="ui celled table">
-    <thead>
-        <th>ID</th>
-        <th>User</th>
-        <th>Key</th>
-        <th>Created Date</th>
-    </thead>
-    <tbody>
-        {% for k in apikeyList %}
-            <tr>
-                <td>{{ k.tokenid }}</td>
-                <td>{{ k.userid }}</td>
-                <td>{{ k.token }}</td>
-                <td>{{ k.updated }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="ui stackable one column vertically divided grid container">
+    <div class="column">
+        <button style="margin-bottom: 1rem;" class="ui button positive right floated" onclick="create_api_key()">Create API Key</button>
+        <table class="ui celled table">
+            <thead>
+                {% if session['user'] and session['user'].role == 'admin' %}
+                <th>ID</th>
+                <th>User</th>
+                {% endif %}
+                <th>Key</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                {% if apikeyList == [] %}
+                    <tr><td style="text-align: center;" colspan="{% if session['user'] and session['user'].role == 'admin' %}5{% else %}3{% endif %}"> No API key created. </td></tr>
+                {% endif %}
+                {% if session['user'] and session['user'].role == 'admin' %}
+                {% for k in apikeyList %}
+                    <tr>
+                        <td>{{ k[0].apikeyid }}</td>
+                        <td>{{ k[1].username }}</td>
+                        <td>{{ k[0].apikey }}</td>
+                        <td>{{ k[0].updated }}</td>
+                        <td><button class="ui button negative" onclick="delete_apikey({{k[0].apikeyid}})">Delete</button></td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                {% for k in apikeyList %}
+                    <tr>
+                        <td>{{ k[0].apikey }}</td>
+                        <td>{{ k[0].updated }}</td>
+                        <td><button class="ui button negative" onclick="delete_apikey({{k[0].apikeyid}})">Delete</button></td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+function create_api_key(){
+    var url = new URL($('#server_endpoint').val()+'/user/apikey/create');
+    fetch(url, { method: 'GET'})
+    .then(response => response.json())
+	.then(response => {
+        if(response.status == 'success'){
+            window.location.reload();
+        }
+    })
+}
+
+function delete_apikey(apikeyid){
+    var url = new URL($('#server_endpoint').val()+'/apikey/delete');
+    url.searchParams.append('apikeyid', apikeyid);
+    fetch(url, { method: 'GET'})
+    .then(response => response.json())
+	.then(response => {
+        if(response.status == 'success'){
+            window.location.reload();
+        }
+    })
+}
+</script>
 {% endblock %}

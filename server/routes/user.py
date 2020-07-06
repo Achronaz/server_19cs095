@@ -16,8 +16,34 @@ def create_user(username,password,role):
         return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
     except Exception:
         return jsonify({'status':'error','message':'unknown error'})
-
     return jsonify({'status':'success','message':'user created.'})
+
+def update_user(userid,username,role):
+    try:
+        user = User.query.filter_by(userid=userid).first()
+        user.username = username
+        user.role = role
+        db.session.commit()
+    except exc.SQLAlchemyError as ex:
+        print(ex.args)
+        return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
+    except Exception:
+        return jsonify({'status':'error','message':'unknown error'})
+    return jsonify({'status':'success','message':'user updated.'})
+
+def delete_user(userid):
+    try:
+        user = User.query.filter_by(userid=userid).first()
+        if user is None:
+            return jsonify({'status':'error','message':'user not found.'})
+        db.session.delete(user)
+        db.session.commit()
+    except exc.SQLAlchemyError as ex:
+        print(ex.args)
+        return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
+    except Exception:
+        return jsonify({'status':'error','message':'unknown error'})
+    return jsonify({'status':'success','message':'user deleted.'})   
 
 @app.route('/user/signup', methods = ['POST'])
 def user_signup():
@@ -25,7 +51,7 @@ def user_signup():
     password = request.form.get("password", default="", type=str)
     repassword = request.form.get("repassword", default="", type=str)
     if username == "" or password == "" or repassword == "":
-        return jsonify({'status':'error','message':'username, password or repassword not presented'})
+        return jsonify({'status':'error','message':'username, password or repassword are not presented'})
     if password != repassword:
         return jsonify({'status':'error','message':'password and repassword not match'})
     return create_user(username,password,'user')
@@ -35,7 +61,7 @@ def user_signin():
     username = request.form.get("username", default="", type=str)
     password = request.form.get("password", default="", type=str)
     if username == "" or password == "":
-        return jsonify({'status':'error','message':'username or password not presented'})
+        return jsonify({'status':'error','message':'username or password not presented.'})
     user = User.query.filter_by(username=username).first()
     if not user or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'status':'error','message':'username or password incorrect'})
@@ -52,18 +78,40 @@ def user_signout():
     session['user'] = False
     return jsonify({'status':'success','message':'signout success'})
 
+
 # need admin right
-@app.route('/admin/add/user', methods = ['GET'])
-def admin_add_user():
-    return jsonify({'status':'success','message':'user added.'})
+@app.route('/user/add', methods = ['POST'])
+def user_add():
+    if not session.get('user') or session.get('user')['role'] != 'admin':
+        return jsonify({'status':'error', 'message':'permission denied.'}) 
+    username = request.form.get("username", default="", type=str)
+    password = request.form.get("password", default="", type=str)
+    repassword = request.form.get("repassword", default="", type=str)
+    role = request.form.get("role", default="", type=str)
+    if username == "" or password == "" or repassword == "" or role not in ['user','admin']:
+        return jsonify({'status':'error','message':'username, role, password or repassword are not presented.'})
+    if password != repassword:
+        return jsonify({'status':'error','message':'password and repassword not match'})
+    return create_user(username,password,role)
 
-@app.route('/admin/edit/user', methods = ['GET'])
-def admin_edit_user():
-    return jsonify({'status':'success','message':'user updated.'})
+@app.route('/user/update', methods = ['GET'])
+def user_update():
+    if not session.get('user') or session.get('user')['role'] != 'admin':
+        return jsonify({'status':'error', 'message':'permission denied.'}) 
+    userid = request.args.get('userid', default="", type=str)
+    username = request.args.get('username', default="", type=str)
+    role = request.args.get('role', default="", type=str)
+    if userid == "" or username == "" or role not in ['user','admin']:
+        return jsonify({'status':'error','message':'userid, username or password are not presented.'})
+    return update_user(userid, username, role)
 
-@app.route('/admin/remove/user', methods = ['GET'])
-def admin_remove_user():
+@app.route('/user/delete', methods = ['GET'])
+def user_delete():
+    if not session.get('user') or session.get('user')['role'] != 'admin':
+        return jsonify({'status':'error', 'message':'permission denied.'}) 
+
     userid = request.form.get("userid", default="", type=str)
-    
-    return jsonify({'status':'success','message':'user removed.'})
+    if userid == "":
+        return jsonify({'status':'error','message':'userid is not presented.'})
+    return delete_user(userid)
 
