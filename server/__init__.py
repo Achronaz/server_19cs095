@@ -36,6 +36,10 @@ def rows2dicts(rows):
 
 from server.models.apikey import ApiKey
 def is_authenticated(apikey,origin):
+
+    print('apikey:'+str(apikey))
+    print('origin:'+str(origin))
+    
     if origin in ['localhost:5000','api.achronaz.com']:
         return True
     apikey = ApiKey.query.filter_by(apikey=apikey).first()
