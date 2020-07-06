@@ -132,6 +132,7 @@
 		$('#btn1').toggleClass('loading');
 		var formData = new FormData();
 		formData.append('image', image.files[0]);
+		formData.append('apikey','a3f123bd30469f6d6caa8cf1488a237156636e746eddef54b11906d690ddc7a1');
 		fetch($('#server_endpoint').val() + '/darknet/detect', {
 			method: 'POST',
 			body: formData
@@ -149,6 +150,7 @@
 		$('#btn2').toggleClass('loading');
 		var url = new URL($('#server_endpoint').val()+'/recipes/search');
 		url.searchParams.append('foodkeyword', $('#search_recipes_form').find('input[name="foodkeyword"]').val());
+		url.searchParams.append('apikey','a3f123bd30469f6d6caa8cf1488a237156636e746eddef54b11906d690ddc7a1');
 		fetch(url, { method: 'GET'})
 		.then(response => response.json())
 		.then(response => {
@@ -167,7 +169,7 @@
 			url.searchParams.append('foodkeyword',$('#search_restaurants_list_form').find('input[name="foodkeyword"]').val());
 			url.searchParams.append('latlng',$('#search_restaurants_list_form').find('input[name="latlong"]').val());
 			url.searchParams.append('radius',$('#search_restaurants_list_form').find('input[name="radius"]').val());
-
+			url.searchParams.append('apikey','a3f123bd30469f6d6caa8cf1488a237156636e746eddef54b11906d690ddc7a1');
 			fetch(url, {method: 'GET' })
 			.then(response => response.json())
 			.then(response => {
@@ -183,7 +185,8 @@
 	function search_restaurants_details(){
 		$('#btn4').toggleClass('loading');
 		var url = new URL($('#server_endpoint').val()+'/place/details');
-		url.searchParams.append('place_id',$('#search_restaurants_details_form').find('input[name="place_id"]').val())
+		url.searchParams.append('place_id',$('#search_restaurants_details_form').find('input[name="place_id"]').val());
+		url.searchParams.append('apikey','a3f123bd30469f6d6caa8cf1488a237156636e746eddef54b11906d690ddc7a1');
 		fetch(url, { method: 'GET' })
 		.then(response => response.json())
 		.then(response => {

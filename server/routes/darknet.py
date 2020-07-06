@@ -52,7 +52,7 @@ def predict(filepath):
 def upload_file():
 
     apikey = request.form.get('apikey', default="", type=str)
-    if not is_authenticated(apikey,request.environ['HTTP_HOST']):
+    if not is_authenticated(apikey):
         return jsonify({"status":"error","message":"invalid api key."})
 
     print(request.files)

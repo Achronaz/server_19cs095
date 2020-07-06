@@ -6,7 +6,7 @@ from flask import request, jsonify
 def google_place_search():
 
     apikey = request.args.get('apikey', default="", type=str)
-    if not is_authenticated(apikey,request.environ['HTTP_HOST']):
+    if not is_authenticated(apikey):
         return jsonify({"status":"error","message":"invalid api key."})
 
     foodkeyword = request.args.get('foodkeyword', default="", type=str)
@@ -31,7 +31,7 @@ def google_place_search():
 def google_place_details():
 
     apikey = request.args.get('apikey', default="", type=str)
-    if not is_authenticated(apikey,request.environ['HTTP_HOST']):
+    if not is_authenticated(apikey):
         return jsonify({"status":"error","message":"invalid api key."})
 
     place_id = request.args.get('place_id', default="", type=str)

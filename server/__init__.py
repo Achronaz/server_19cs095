@@ -35,13 +35,7 @@ def rows2dicts(rows):
     return jsonify([row.as_dict() for row in rows])
 
 from server.models.apikey import ApiKey
-def is_authenticated(apikey,origin):
-
-    print('apikey:'+str(apikey))
-    print('origin:'+str(origin))
-    
-    if origin in ['localhost:5000','api.achronaz.com']:
-        return True
+def is_authenticated(apikey):
     apikey = ApiKey.query.filter_by(apikey=apikey).first()
     return apikey is not None
 
