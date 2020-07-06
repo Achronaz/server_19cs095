@@ -31,20 +31,6 @@ def update_user(userid,username,role):
         return jsonify({'status':'error','message':'unknown error'})
     return jsonify({'status':'success','message':'user updated.'})
 
-def delete_user(userid):
-    try:
-        user = User.query.filter_by(userid=userid).first()
-        if user is None:
-            return jsonify({'status':'error','message':'user not found.'})
-        db.session.delete(user)
-        db.session.commit()
-    except exc.SQLAlchemyError as ex:
-        print(ex.args)
-        return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
-    except Exception:
-        return jsonify({'status':'error','message':'unknown error'})
-    return jsonify({'status':'success','message':'user deleted.'})   
-
 @app.route('/user/signup', methods = ['POST'])
 def user_signup():
     username = request.form.get("username", default="", type=str)
@@ -105,12 +91,27 @@ def user_update():
         return jsonify({'status':'error','message':'userid, username or password are not presented.'})
     return update_user(userid, username, role)
 
+def delete_user(userid):
+    try:
+        user = User.query.filter_by(userid=userid).first()
+        if user is None:
+            return jsonify({'status':'error','message':'user not found.'})
+        print(user.userid)
+        db.session.delete(user)
+        db.session.commit()
+    except exc.SQLAlchemyError as ex:
+        print(ex.args)
+        return jsonify({'status':'error','message':'{}'.format(ex.args[0])})
+    except Exception:
+        return jsonify({'status':'error','message':'unknown error'})
+    return jsonify({'status':'success','message':'user deleted.'})   
+
 @app.route('/user/delete', methods = ['GET'])
 def user_delete():
     if not session.get('user') or session.get('user')['role'] != 'admin':
         return jsonify({'status':'error', 'message':'permission denied.'}) 
 
-    userid = request.form.get("userid", default="", type=str)
+    userid = request.args.get("userid", default="", type=str)
     if userid == "":
         return jsonify({'status':'error','message':'userid is not presented.'})
     return delete_user(userid)
