@@ -1,3 +1,4 @@
+
 import sys, os
 sys.path.append('../../darknet')
 import darknet.darknet as dn
@@ -67,3 +68,5 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], str(uuid.uuid4()) + ext )
         file.save(filepath)
         return predict(filepath)
+    else:
+        return jsonify({'status':'error','message':'not allowed format.'})

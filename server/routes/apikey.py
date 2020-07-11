@@ -20,7 +20,7 @@ def create_apikey(userid):
 @app.route('/user/apikey/create', methods = ['GET'])
 def user_apikey_create():
     if not session.get('user'):
-        return jsonify({'status':'error','message':'please signin with user account.'})
+        return jsonify({'status':'error','message':'permission denied'})
     return create_apikey(session.get('user')['userid'])
 
 @app.route('/admin/apikey/create', methods = ['GET'])
@@ -35,7 +35,7 @@ def admin_apikey_create():
 @app.route('/apikey/delete', methods = ['GET'])
 def apikey_delete():
     if not session.get('user'):
-        return jsonify({'status':'error','message':'please signin with user account.'})
+        return jsonify({'status':'error','message':'permission denied'})
     
     apikeyid = request.args.get("apikeyid", default="", type=str)
     if apikeyid == "":
