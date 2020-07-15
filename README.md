@@ -87,7 +87,7 @@ pip install -r requirements.txt
 #sudo -H pip3 install --ignore-installed <package>
 
 cd darknet
-gdown https://drive.google.com/u/1/uc?id=1AbFplLDNAkOBTYmFu1Z5rEly3L-5SDWl
+gdown https://drive.google.com/u/1/uc?id=1foQ7F2U48bhxtOG9SUXfmY0xaJFHbTWb
 
 make -j"$(nproc)"
 
