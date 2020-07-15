@@ -95,3 +95,28 @@ cd ..
 
 python3 run.py
 ```
+## train model 
+```
+git clone https://github.com/Achronaz/server_19cs095
+cd server_19cs095/darknet
+sed -i s/GPU=0/GPU=1/g Makefile
+sed -i s/CUDNN=0/CUDNN=1/g Makefile
+sed -i s/CUDNN_HALF=0/CUDNN_HALF=1/g Makefile
+sed -i s/OPENCV=0/OPENCV=1/g Makefile
+# LIBSO=1 for generating libdarknet.so for python wrapper
+sed -i s/LIBSO=0/LIBSO=1/g Makefile
+make
+
+cd data
+# download dataset.zip
+gdown https://drive.google.com/u/1/uc?id=1bUdAw4gIwcqeUZJDw5XL5r4RrV5kK1cq
+unzip dataset.zip
+cd ..
+# download yolov4.conv.137
+gdown https://drive.google.com/u/1/uc?id=1AWKWiUh7vh_lFzDztsMrGs5zaHLdiiEu
+
+./darknet detector train custom5-512.data custom5-512.cfg yolov4.conv.137 -map -dont_show
+# for multi GPU
+#./darknet detector train custom5-512.data custom5-512.cfg yolov4.conv.137 -map -dont_show -gpus 0,1,2,3
+
+```
