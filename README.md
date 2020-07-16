@@ -75,6 +75,12 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 sudo make -j"$(nproc)" install
 #sudo ldconfig
 ```
+## database
+```
+# download SQL dump from: https://drive.google.com/file/d/1g_1n30WUdtjNQhFl7t9Juqbj1RDjSU-z/view?usp=sharing
+# import SQL dump to MySQL server
+# modify SQLALCHEMY_DATABASE_URI in server_19cs095/config.yaml
+```
 ## clone and run the server
 ```
 git clone https://github.com/Achronaz/server_19cs095
