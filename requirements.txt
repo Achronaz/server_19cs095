@@ -6,6 +6,6 @@ Flask-SQLAlchemy==2.4.3
 PyMySQL==0.9.3
 Werkzeug==1.0.1
 gdown==3.11.1
-flask-cors==3.0.8
+flask-cors==3.0.9
 Pillow==7.1.2
 
