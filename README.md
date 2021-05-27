@@ -1,4 +1,18 @@
 # RESTful food recognition API based on YOLOv4
+
+## Screenshots
+![Index Page](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/page_index.JPG)
+![Docs Page](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/page_docs.JPG)
+![Demo Page](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/page_demo.JPG)
+![Api Key Page](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/page_apikey.JPG)
+![User Page](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/page_user.JPG)
+## Sitemap
+![](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/sitemap.JPG)
+
+## API(Production)
+![](https://raw.githubusercontent.com/Achronaz/server_19cs095/master/api_production.JPG)
+
+
 ## Requirement (Linux)
 ```
 CMake >= 3.12
